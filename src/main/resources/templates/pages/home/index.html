@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="cs-cz">
+<head th:replace="~{fragments/layout.html :: head}"></head>
+<body>
+<header th:replace="~{fragments/layout.html ::header}"></header>
+
+<article>
+    <header>
+        <H1>O mně</H1>
+    </header>
+    <section>
+        <img th:src="@{/images/jen ja.jpg}" class="avatar"  alt="Tanec HoBi" />
+        <p>
+            Vítejte na mém prvním webu, psát weby se teprve učím, ale myslím, že mi to docela jde.
+        </p>
+
+        <p>
+            Jmenuji se Michal Černý a je mi 31 let. Pracuji jako Team leader skladu ve společnosti Safran Cabin v Plzni. Kontaktovat mě můžete na <a href="kontakt.html">kontaktní stránce</a>.
+        </p>
+        <p>Rád jezdím na kole, tančím, cestuju</p>
+        <p>Mým hlavním koníčkem jsou kolo a tanec</p>
+
+        <h2>Dovednosti</h2>
+        <p>Co umím, jsem sepsal na stránce <a th:href="@{/dovednosti}">dovednosti</a></p>
+
+
+
+        <p class="tlacitko-odstavec">
+            <a th:href="@{/reference}" class="reference-tlacitko">Moje reference</a>
+        </p>
+        <div class="cistic"></div>
+    </section>
+</article>
+
+<footer th:replace="~{fragments/layout.html :: footer}"></footer>
+</body>
+</html>
