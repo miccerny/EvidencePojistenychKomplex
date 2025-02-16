@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{fragments/layoutProject.html :: head}"></head>
+<body>
+<header th:replace="~{fragments/layoutProject.html ::header}"></header>
+
+<article>
+  <div id="centrovac">
+    <header>
+      <h1>Nový Záznam</h1>
+    </header>
+    <section>
+
+      <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2"
+          method="post"
+            th:action="@{/projects/createRecord}">
+        <div class="form-group">
+        <label for="pojisteni" class="control-label">Pojištění</label>
+        <input id="pojisteni" th:field="*{pojisteni}">
+          <small class="text-danger" th:errors="*{pojisteni}"></small>
+        </div>
+        <div class="form-group">
+          <label for="castka" class="control-label">Částka</label>
+          <input id="castka" th:field="*{castka}">
+          <small class="text-danger" th:errors="*{castka}"></small>
+        </div>
+        <div class="form-group">
+          <label for="predmetPojisteni" class="control-label">Předmět pojištění</label>
+          <input id="predmetPojisteni" th:field="*{predmetPojisteni}">
+          <small class="text-danger" th:errors="*{predmetPojisteni}"></small>
+        </div>
+        <div class="form-group">
+          <label for="platnostOd" class="control-label">Platnost Od</label>
+          <input id="platnostOd" th:field="*{platnostOd}">
+          <small class="text-danger" th:errors="*{platnostOd}"></small>
+        </div>
+        <div class="form-group">
+          <label for="platnostDo" class="control-label">Platnost Do</label>
+          <input id="platnostDo" th:field="*{platnostDo}">
+          <small class="text-danger" th:errors="*{platnostDo}"></small>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="zaznam-tlacitko">Uložit</button>
+        </div>
+
+      </form>
+
+      <p>
+        <a class="zaznam-tlacitko" th:href="@{/projects/evidencePojistencu}">Zpět na Evidenci</a>
+      </p>
+    </section>
+  </div>
+</article>
+
+<footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
+</body>
+</html>
