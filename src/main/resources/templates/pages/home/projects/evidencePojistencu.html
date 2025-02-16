@@ -5,7 +5,31 @@
 <header th:replace="~{fragments/layoutProject.html ::header}">
 </header>
 
+<article>
+    <div id="centrovac">
+        <header>
+            <h1>Evidence pojištění</h1>
+        </header>
+<section>
+    <p>
+        <a class="zaznam-tlacitko" th:href="@{/projects/createRecord}">Vytvořit nový záznam</a>
+    </p>
 
+    <ul class="list-group" id="zaznam">
+        <li th:each="record: ${insuranceRecordDTO}" class="list-group-item">
+        <h2 th:text= "${record.insurance}"></h2>
+        <p><strong>Předmět pojištění</strong> <a th:text="${record.subjectOfInsurance}"></a></p>
+            <p><strong>Částka:</strong> <span th:text="${record.amount}"></span> Kč</p>
+            <p><strong>Platnost od:</strong> <span th:text="${record.dateFrom}"></span></p>
+            <p><strong>Platnost do:</strong> <span th:text="${record.dateTo}"></span></p>
+        <p>
+            <a href="#">Editovat</a> |
+            <a href="#">Odstranit</a>
+        </li>
+    </ul>
+</section>
+    </div>
+</article>
 <footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
 </body>
 </html>

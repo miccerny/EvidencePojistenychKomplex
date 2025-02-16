@@ -3,69 +3,121 @@ package evidence.pojistenych.spring.models.dto;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class InsuranceRecordDTO {
 
+    private long insuranceId;
+
     @NotBlank(message = "Vyplňte typ pojištění")
-    private String pojisteni;
+    private String insurance;
 
 
     @Positive(message = "Částká musí být vyplněna a kladné číslo")
-    private double castka;
+    private double amount;
 
     @Size(min = 10, message = "Předmět musí mít alespoň 10 znaků")
     @NotBlank(message = "Vyplňte předmět")
-    private String predmetPojisteni;
+    private String subjectOfInsurance;
 
     @NotNull
     @FutureOrPresent(message = "Musí být datum v budoucnosti nebo dnešní")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private Date platnostOd;
+    private LocalDate dateFrom;
 
+    /**
+     *
+     */
     @NotNull
     @Future(message = "Musí být datum v budoucnosti")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private Date platnostDo;
+    private LocalDate dateTo;
 
-
-    public String getPojisteni() {
-        return pojisteni;
+    public long getInsuranceId() {
+        return insuranceId;
     }
 
-    public void setPojisteni(String pojisteni) {
-        this.pojisteni = pojisteni;
+    public void setInsuranceId(long insuranceId) {
+        this.insuranceId = insuranceId;
     }
 
-    public double getCastka() {
-        return castka;
+    /**
+     *
+     * @return
+     */
+    public String getInsurance() {
+        return insurance;
     }
 
-    public void setCastka(double castka) {
-        this.castka = castka;
+    /**
+     *
+     * @param insurance
+     */
+    public void setInsurance(String insurance) {
+        this.insurance = insurance;
     }
 
-    public String getPredmetPojisteni() {
-        return predmetPojisteni;
+    /**
+     *
+     * @return
+     */
+    public double getAmount() {
+        return amount;
     }
 
-    public void setPredmetPojisteni(String predmetPojisteni) {
-        this.predmetPojisteni = predmetPojisteni;
+    /**
+     *
+     * @param amount
+     */
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public Date getPlatnostOd() {
-        return platnostOd;
+    /**
+     *
+     * @return
+     */
+    public String getSubjectOfInsurance() {
+        return subjectOfInsurance;
     }
 
-    public void setPlatnostOd(Date platnostOd) {
-        this.platnostOd = platnostOd;
+    /**
+     *
+     * @param subjectOfInsurance
+     */
+    public void setSubjectOfInsurance(String subjectOfInsurance) {
+        this.subjectOfInsurance = subjectOfInsurance;
     }
 
-    public Date getPlatnostDo() {
-        return platnostDo;
+    /**
+     *
+     * @return
+     */
+    public LocalDate getDateFrom() {
+        return dateFrom;
     }
 
-    public void setPlatnostDo(Date platnostDo) {
-        this.platnostDo = platnostDo;
+    /**
+     *
+     * @param dateFrom
+     */
+    public void setDateFrom(LocalDate dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public LocalDate getDateTo() {
+        return dateTo;
+    }
+
+    /**
+     *
+     * @param dateTo
+     */
+    public void setDateTo(LocalDate dateTo) {
+        this.dateTo = dateTo;
     }
 }
