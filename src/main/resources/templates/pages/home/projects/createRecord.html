@@ -15,29 +15,29 @@
           method="post"
             th:action="@{/projects/createRecord}">
         <div class="form-group">
-        <label for="pojisteni" class="control-label">Pojištění</label>
-        <input id="pojisteni" th:field="*{pojisteni}">
-          <small class="text-danger" th:errors="*{pojisteni}"></small>
+        <label for="insurance" class="control-label">Pojištění</label>
+        <input id="insurance" th:field="*{insurance}">
+          <small class="text-danger" th:errors="*{insurance}"></small>
         </div>
         <div class="form-group">
-          <label for="castka" class="control-label">Částka</label>
-          <input id="castka" th:field="*{castka}">
-          <small class="text-danger" th:errors="*{castka}"></small>
+          <label for="amount" class="control-label">Částka</label>
+          <input id="amount" th:field="*{amount}">
+          <small class="text-danger" th:errors="*{amount}"></small>
         </div>
         <div class="form-group">
-          <label for="predmetPojisteni" class="control-label">Předmět pojištění</label>
-          <input id="predmetPojisteni" th:field="*{predmetPojisteni}">
-          <small class="text-danger" th:errors="*{predmetPojisteni}"></small>
+          <label for="subjectOfInsurance" class="control-label">Předmět pojištění</label>
+          <input id="subjectOfInsurance" th:field="*{subjectOfInsurance}">
+          <small class="text-danger" th:errors="*{subjectOfInsurance}"></small>
         </div>
         <div class="form-group">
-          <label for="platnostOd" class="control-label">Platnost Od</label>
-          <input id="platnostOd" th:field="*{platnostOd}">
-          <small class="text-danger" th:errors="*{platnostOd}"></small>
+          <label for="dateFrom" class="control-label">Platnost Od</label>
+          <input id="dateFrom" th:field="*{dateFrom}">
+          <small class="text-danger" th:errors="*{dateFrom}"></small>
         </div>
         <div class="form-group">
-          <label for="platnostDo" class="control-label">Platnost Do</label>
-          <input id="platnostDo" th:field="*{platnostDo}">
-          <small class="text-danger" th:errors="*{platnostDo}"></small>
+          <label for="dateTo" class="control-label">Platnost Do</label>
+          <input id="dateTo" th:field="*{dateTo}">
+          <small class="text-danger" th:errors="*{dateTo}"></small>
         </div>
         <div class="form-group">
           <button type="submit" class="zaznam-tlacitko">Uložit</button>

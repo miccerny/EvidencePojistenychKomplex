@@ -4,6 +4,8 @@ package evidence.pojistenych.spring.models.dto.mappers;
 import evidence.pojistenych.spring.data.entities.InsuranceEntity;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 /**
  *
@@ -19,4 +21,7 @@ public interface InsuranceMapper {
         InsuranceEntity toEntity(InsuranceRecordDTO source);
 
         InsuranceRecordDTO toDTO(InsuranceEntity source);
+
+        void updateInsuranceRecordDTO(InsuranceRecordDTO source, @MappingTarget InsuranceRecordDTO target);
+        void updateInsuranceEntity(InsuranceRecordDTO source, @MappingTarget InsuranceEntity target);
 }

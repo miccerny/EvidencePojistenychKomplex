@@ -9,4 +9,8 @@ public interface InsuranceService {
     List<InsuranceRecordDTO> getAll();
 
     void create(InsuranceRecordDTO insuranceRecordDTO);
+
+    InsuranceRecordDTO getById(long insuranceId);
+
+    void edit(InsuranceRecordDTO insuranceRecordDTO);
 }

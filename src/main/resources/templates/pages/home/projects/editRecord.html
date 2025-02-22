@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/layoutProject.html :: head}"></head>
+<body>
+<header th:replace="~{fragments/layoutProject.html ::header}">
+</header>
+
+<article>
+  <div id="centrovac">
+    <header>
+      <h1>Úprava pojištění</h1>
+    </header>
+
+    <section>
+        <form th:object="${insuranceRecordDTO}"
+              class="d-flex flex-column gap-2"
+              method="post"
+              th:action="@{'/projects/editRecord' + ${insuranceId}}">
+          <div class="form-group">
+            <label for="insurance" class="control-label">Pojištění</label>
+            <input id="insurance" th:field="*{insurance}">
+            <small class="text-danger" th:errors="*{insurance}"></small>
+          </div>
+          <div class="form-group">
+            <label for="amount" class="control-label">Částka</label>
+            <input id="amount" th:field="*{amount}">
+            <small class="text-danger" th:errors="*{amount}"></small>
+          </div>
+          <div class="form-group">
+            <label for="subjectOfInsurance" class="control-label">Předmět pojištění</label>
+            <input id="subjectOfInsurance" th:field="*{subjectOfInsurance}">
+            <small class="text-danger" th:errors="*{subjectOfInsurance}"></small>
+          </div>
+          <div class="form-group">
+            <label for="dateFrom" class="control-label">Platnost Od</label>
+            <input id="dateFrom" th:field="*{dateFrom}">
+            <small class="text-danger" th:errors="*{dateFrom}"></small>
+          </div>
+          <div class="form-group">
+            <label for="dateTo" class="control-label">Platnost Do</label>
+            <input id="dateTo" th:field="*{dateTo}">
+            <small class="text-danger" th:errors="*{dateTo}"></small>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="zaznam-tlacitko">Uložit</button>
+          </div>
+      </form>
+    </section>
+  </div>
+</article>
+
+
+<footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
+</body>
+</html>

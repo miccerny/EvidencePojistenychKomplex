@@ -17,16 +17,47 @@
 
     <ul class="list-group" id="zaznam">
         <li th:each="record: ${insuranceRecordDTO}" class="list-group-item">
-        <h2 th:text= "${record.insurance}"></h2>
-        <p><strong>Předmět pojištění</strong> <a th:text="${record.subjectOfInsurance}"></a></p>
-            <p><strong>Částka:</strong> <span th:text="${record.amount}"></span> Kč</p>
-            <p><strong>Platnost od:</strong> <span th:text="${record.dateFrom}"></span></p>
-            <p><strong>Platnost do:</strong> <span th:text="${record.dateTo}"></span></p>
-        <p>
-            <a href="#">Editovat</a> |
-            <a href="#">Odstranit</a>
+            <div class="table-responsive">
+            <table class="table table-bordered table-fixe">
+                <thead>
+                <tr>
+
+                    <h2 th:text= "${record.insurance}"></h2>
+
+                </tr>
+                </thead>
+
+        <div>
+            <tbody>
+            <tr>
+                <td class="text-nowrap">
+                    <p><strong>Předmět pojištění:</strong> </p>
+                    <p><a th:text="${record.subjectOfInsurance}"></a></p>
+                </td>
+                <td class="text-nowrap">
+                    <p><strong>Částka:</strong> </p>
+                    <p><span th:text="${record.amount}"></span> Kč</p>
+                </td>
+                <td class="text-nowrap">
+                    <p><strong>Platnost od:</strong></p>
+                    <p><span th:text="${record.dateFrom}"></span></p>
+                </td>
+                <td class="text-nowrap">
+                    <p><strong>Platnost do:</strong> </p>
+                    <p><span th:text="${record.dateTo}"></span></p>
+                </td>
+                <td class="text-nowrap">
+                    <p></p><a th:href="@{/projects/editRecord/{insuranceId}(insuranceId=${record.insuranceId})}">Editovat</a></p>
+                    <p><a href="#">Odstranit</a></p>
+                </td>
+            </tr>
+            </tbody>
+        </div>
+            </table>
+            </div>
         </li>
     </ul>
+
 </section>
     </div>
 </article>

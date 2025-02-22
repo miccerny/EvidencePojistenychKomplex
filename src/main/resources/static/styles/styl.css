@@ -110,7 +110,7 @@ article h6 {
     color: #00386B;
 }
 
-article h1 {
+insurance h1 {
     margin: 0;
     font-size: 2.3em;
     font-weight: bold;
@@ -258,5 +258,4 @@ Flash messages
 .message-error {
     background: #d41400;
 }
-    
     

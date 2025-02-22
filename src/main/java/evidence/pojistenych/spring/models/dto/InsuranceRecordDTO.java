@@ -120,4 +120,6 @@ public class InsuranceRecordDTO {
     public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }
+
+
 }

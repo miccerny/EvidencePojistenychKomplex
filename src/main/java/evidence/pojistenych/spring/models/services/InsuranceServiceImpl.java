@@ -46,4 +46,26 @@ public class InsuranceServiceImpl implements InsuranceService {
         System.out.println("Pojištění v databázi: " + result.size() + " záznamů.");
         return result;
     }
+
+    @Override
+    public InsuranceRecordDTO getById(long insuranceId){
+        InsuranceEntity fetchedInsurance = insuranceRepository
+                .findById(insuranceId)
+                .orElseThrow();
+        return insuranceMapper.toDTO(fetchedInsurance);
+    }
+
+    @Override
+    public  void edit(InsuranceRecordDTO insuranceRecordDTO){
+        InsuranceEntity fetchedInsurance = getInsuranceOrThrow(insuranceRecordDTO.getInsuranceId());
+
+        insuranceMapper.updateInsuranceEntity(insuranceRecordDTO, fetchedInsurance);
+        insuranceRepository.save(fetchedInsurance);
+    }
+
+    private InsuranceEntity getInsuranceOrThrow(long insuranceId){
+        return insuranceRepository
+                .findById(insuranceId)
+                .orElseThrow();
+    }
 }
