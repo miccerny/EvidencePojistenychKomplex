@@ -27,6 +27,14 @@ public class ApplicationSecurityConfiguration {
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/account/login")
+                .loginProcessingUrl("/account/login")
+                .defaultSuccessUrl("/evidencePojistencu", true)
+                .usernameParameter("email")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/account/logout")
                 .and()
                 .build();
     }
