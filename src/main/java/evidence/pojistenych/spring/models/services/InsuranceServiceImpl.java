@@ -4,6 +4,7 @@ import evidence.pojistenych.spring.data.entities.InsuranceEntity;
 import evidence.pojistenych.spring.data.repository.InsuranceRepository;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
+import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +64,18 @@ public class InsuranceServiceImpl implements InsuranceService {
         insuranceRepository.save(fetchedInsurance);
     }
 
+    @Override
+    public  void remove(long insuranceId){
+        InsuranceEntity fetchedEntity = getInsuranceOrThrow(insuranceId);
+        insuranceRepository.delete(fetchedEntity);
+    }
+
+
+
+
     private InsuranceEntity getInsuranceOrThrow(long insuranceId){
         return insuranceRepository
                 .findById(insuranceId)
-                .orElseThrow();
+                .orElseThrow(InsuranceNotFoundException::new);
     }
 }

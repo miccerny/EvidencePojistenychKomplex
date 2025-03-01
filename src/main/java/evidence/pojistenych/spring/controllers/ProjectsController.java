@@ -2,6 +2,7 @@ package evidence.pojistenych.spring.controllers;
 
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
+import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -53,13 +55,15 @@ public class ProjectsController {
      */
     @PostMapping("createRecord")
     public String createRecord(@Valid @ModelAttribute InsuranceRecordDTO insuranceRecord,
-                               BindingResult result) {
+                               BindingResult result,
+                               RedirectAttributes redirectAttributes) {
         if (result.hasErrors())
             return renderCreateRecord(insuranceRecord);
 
             insuranceService.create(insuranceRecord);
+            redirectAttributes.addFlashAttribute("success", "Pojištění vytvořeno");
 
-            return "redirect:/createRecord";
+            return "redirect:/projects/evidencePojistencu";
 
     }
 
@@ -77,14 +81,32 @@ public class ProjectsController {
     @PostMapping("editRecord/{insuranceId}")
     public String editInsurance(@PathVariable long insuranceId,
                                 @Valid InsuranceRecordDTO insuranceRecordDTO,
-                                BindingResult result){
+                                BindingResult result,
+                                RedirectAttributes redirectAttributes){
         if(result.hasErrors())
             return  renderEditForm(insuranceId, insuranceRecordDTO);
 
         insuranceRecordDTO.setInsuranceId(insuranceId);
         insuranceService.edit(insuranceRecordDTO);
+        redirectAttributes.addFlashAttribute("success", "Pojištění upraveno");
 
-        return "redirect:/evidencePojistencu";
+        return "redirect:/projects/evidencePojistencu";
+    }
+
+    @GetMapping("delete/{insuranceId}")
+    public  String deleteInsurance(@PathVariable long insuranceId,
+                                   RedirectAttributes redirectAttributes){
+        insuranceService.remove(insuranceId);
+        redirectAttributes.addFlashAttribute("success", "Článek smazán");
+
+        return "redirect:/projects/evidencePojistencu";
+    }
+
+    @ExceptionHandler({InsuranceNotFoundException.class})
+    public String handleInsuranceNotFoundException(RedirectAttributes redirectAttributes){
+
+        redirectAttributes.addFlashAttribute("error", "Článek nenalezen.");
+        return "redirect:/projects/evidencePojistencu";
     }
 
 }
