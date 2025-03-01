@@ -13,4 +13,6 @@ public interface InsuranceService {
     InsuranceRecordDTO getById(long insuranceId);
 
     void edit(InsuranceRecordDTO insuranceRecordDTO);
+
+    void remove(long insuranceId);
 }
