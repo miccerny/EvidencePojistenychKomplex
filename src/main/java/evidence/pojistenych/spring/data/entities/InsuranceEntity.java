@@ -27,6 +27,9 @@ public class InsuranceEntity {
     @Column(nullable = false, name = "end_date")
     private LocalDate dateTo;
 
+    @ManyToOne
+    @JoinColumn(name = "insured_person_id", referencedColumnName = "id")
+    private InsuredPersonEntity insuredPerson;
 
 
     public Long getInsuranceId() {

@@ -22,9 +22,12 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+
     @Column(nullable = false)
     private boolean admin;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private InsuredPersonEntity insuredPerson;
 
 
     public long getUserId() {

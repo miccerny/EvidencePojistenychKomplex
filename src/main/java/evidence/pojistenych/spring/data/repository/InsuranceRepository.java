@@ -8,4 +8,5 @@ import java.util.List;
 public interface InsuranceRepository extends CrudRepository<InsuranceEntity, Long> {
 
 
+    List<InsuranceEntity> findByInsuredPerson(InsuranceEntity insuranceEntity);
 }
