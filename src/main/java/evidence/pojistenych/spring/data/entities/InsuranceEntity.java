@@ -27,6 +27,8 @@ public class InsuranceEntity {
     @Column(nullable = false, name = "end_date")
     private LocalDate dateTo;
 
+
+
     public Long getInsuranceId() {
         return insuranceId;
     }
@@ -74,4 +76,7 @@ public class InsuranceEntity {
     public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }
+
+
+
 }

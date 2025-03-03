@@ -6,6 +6,7 @@ import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,8 @@ public class ProjectsController {
      *
      * @return
      */
+
+
     @GetMapping("/evidencePojistencu")
     public String renderPojistenci(Model model){
 
@@ -42,6 +45,9 @@ public class ProjectsController {
      * @param insuranceRecordDTO
      * @return
      */
+
+
+    @Secured("ROLE_ADMIN")
     @GetMapping("/createRecord")
     public String renderCreateRecord(@ModelAttribute InsuranceRecordDTO insuranceRecordDTO){
         return "pages/home/projects/createRecord";
@@ -53,6 +59,7 @@ public class ProjectsController {
      * @param result
      * @return
      */
+    @Secured("ROLE_ADMIN")
     @PostMapping("createRecord")
     public String createRecord(@Valid @ModelAttribute InsuranceRecordDTO insuranceRecord,
                                BindingResult result,
@@ -69,6 +76,7 @@ public class ProjectsController {
 
 
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/editRecord/{insuranceId}")
     public String renderEditForm(@PathVariable long insuranceId,
                                  InsuranceRecordDTO insuranceRecordDTO){
@@ -78,6 +86,8 @@ public class ProjectsController {
         return "pages/home/projects/editRecord";
     }
 
+
+    @Secured("ROLE_ADMIN")
     @PostMapping("editRecord/{insuranceId}")
     public String editInsurance(@PathVariable long insuranceId,
                                 @Valid InsuranceRecordDTO insuranceRecordDTO,
@@ -93,6 +103,7 @@ public class ProjectsController {
         return "redirect:/projects/evidencePojistencu";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("delete/{insuranceId}")
     public  String deleteInsurance(@PathVariable long insuranceId,
                                    RedirectAttributes redirectAttributes){

@@ -12,11 +12,10 @@ public class UserDTO {
 
     @NotBlank(message = "Vyplňte uživatelské heslo")
     @Size(min = 6, message = "Heslo musí mít alespoň 6 znaků")
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[-,*@#$%^&+=]).{6,}$", message = "Heslo musí obsahovat alespoň jedno velké písmeno, číslo a speciální znak.")
     private String password;
 
     @NotBlank(message = "Vyplňte uživatelské heslo")
-    @Size(min = 6, message = "Heslo musí mít minimálně 6 znaků")
+    @Size(min = 6, message = "Heslo musí mít alespoň 6 znaků")
     private String confirmPassword;
 
 
@@ -44,8 +43,4 @@ public class UserDTO {
         this.confirmPassword = confirmPassword;
     }
 
-    @AssertTrue(message = "Hesla se neshodují")
-    public boolean isPasswordsEqual(){
-        return password != null;
-    }
 }

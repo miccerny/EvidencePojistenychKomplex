@@ -2,7 +2,11 @@ package evidence.pojistenych.spring.controllers;
 
 
 import evidence.pojistenych.spring.models.dto.UserDTO;
+import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
+import evidence.pojistenych.spring.models.exceptions.PasswordsDoNotEqualException;
+import evidence.pojistenych.spring.models.services.UserService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("login")
     public String renderLogin(){
@@ -32,6 +39,19 @@ public class AccountController {
     ){
         if(bindingResult.hasErrors())
             return renderRegister(userDTO);
+
+
+        try {
+            userService.create(userDTO, false);
+        }catch (DuplicateEmailException e){
+            bindingResult.rejectValue("email", "error", "Email je již používán");
+            return "/pages/account/register";
+        }catch (PasswordsDoNotEqualException e){
+            bindingResult.rejectValue("password", "error", "Hesla se neshodují");
+            bindingResult.rejectValue("confirmPassword", "error", "Hesla se neshodují");
+            return "/pages/account/register";
+        }
+
 
 
         redirectAttributes.addFlashAttribute("success", "Uživatel registrován.");

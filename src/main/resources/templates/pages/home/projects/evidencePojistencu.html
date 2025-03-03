@@ -49,8 +49,8 @@
                     <p><span th:text="${record.dateTo}"></span></p>
                 </td>
                 <td class="text-nowrap">
-                    <p></p><a th:href="@{/projects/editRecord/{insuranceId}(insuranceId=${record.insuranceId})}">Editovat</a></p>
-                    <p><a th:href="@{/projects/delete/{insuranceId}(insuranceId=${record.insuranceId})}">Odstranit</a></p>
+                    <p sec:authorize="hasRole('ADMIN')"><a th:href="@{/projects/editRecord/{insuranceId}(insuranceId=${record.insuranceId})}">Editovat</a></p>
+                    <p sec:authorize="hasRole('ADMIN')"><a th:href="@{/projects/delete/{insuranceId}(insuranceId=${record.insuranceId})}">Odstranit</a></p>
                 </td>
             </tr>
             </tbody>
