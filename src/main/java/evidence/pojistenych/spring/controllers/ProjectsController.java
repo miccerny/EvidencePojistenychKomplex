@@ -1,9 +1,11 @@
 package evidence.pojistenych.spring.controllers;
 
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
+import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
+import evidence.pojistenych.spring.models.services.InsuredPersonService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -26,6 +28,7 @@ public class ProjectsController {
     @Autowired
     private InsuranceService insuranceService;
 
+
     /**
      *
      * @return
@@ -42,14 +45,23 @@ public class ProjectsController {
 
     /**
      *
-     * @param insuranceRecordDTO
+     * @param
      * @return
      */
+
+    @GetMapping("createInsuredPerson")
+    public String renderCreateInsured(@ModelAttribute InsuredPersonDTO insuredPersonDTO){
+
+        return "pages/home/projects/createInsuredPerson";
+    }
+
 
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/createRecord")
     public String renderCreateRecord(@ModelAttribute InsuranceRecordDTO insuranceRecordDTO){
+
+
         return "pages/home/projects/createRecord";
     }
 
@@ -73,6 +85,9 @@ public class ProjectsController {
             return "redirect:/projects/evidencePojistencu";
 
     }
+
+
+
 
 
 
@@ -119,5 +134,6 @@ public class ProjectsController {
         redirectAttributes.addFlashAttribute("error", "Článek nenalezen.");
         return "redirect:/projects/evidencePojistencu";
     }
+
 
 }

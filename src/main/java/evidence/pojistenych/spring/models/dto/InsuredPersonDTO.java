@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 
-public class InsuredPersonDTO {
+public class InsuredPersonDTO extends UserDTO{
 
 
     private long insuredPersonId;
