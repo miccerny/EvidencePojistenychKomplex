@@ -18,6 +18,7 @@ public class ApplicationSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws  Exception{
 
         return httpSecurity.authorizeHttpRequests()
+                
                 .anyRequest()
                 .permitAll()
                 .and()
