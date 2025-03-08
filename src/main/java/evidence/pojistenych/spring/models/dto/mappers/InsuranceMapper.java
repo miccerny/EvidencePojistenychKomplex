@@ -26,28 +26,8 @@ public interface InsuranceMapper {
 
         InsuranceRecordDTO toDTO(InsuranceEntity source);
 
-
-        // Mapování mezi InsuredPersonEntity a InsuredPersonDTO
-        @Mapping(source = "userEntity.email", target = "email")  // Tady se používá cesta k 'email' v 'userEntity'
-        InsuredPersonDTO toDTO(InsuredPersonEntity source);
-
-        // Mapování mezi InsuredPersonDTO a InsuredPersonEntity
-        @Mapping(source = "email", target = "userEntity.email")  // Mapování emailu z DTO do entity
-        InsuredPersonEntity toEntity(InsuredPersonDTO source);
-
-        /**
-         * Mapování mezi UserDTO a UserEntity
-         * @param source
-         * @return
-         */
-        // Mapování emailu z UserDTO do UserEntity
-        UserEntity toEntity(UserDTO source);
-        // Mapování emailu z UserDTO do UserEntity
-        UserDTO toDTO(UserEntity source);
-
         void updateInsuranceRecordDTO(InsuranceRecordDTO source, @MappingTarget InsuranceRecordDTO target);
         void updateInsuranceEntity(InsuranceRecordDTO source, @MappingTarget InsuranceEntity target);
 
-        void updateInsuredPersonDTO(InsuredPersonDTO source, @MappingTarget InsuredPersonDTO target);
-        void updateInsuredPersonEntity(InsuredPersonDTO source, @MappingTarget InsuredPersonEntity target);
+
 }

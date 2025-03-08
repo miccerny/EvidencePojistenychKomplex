@@ -32,16 +32,20 @@ public class InsuredPersonDTO {
     @Max(value = 90000, message = "PSČ musí být maximálně 90000")
     private int zipCode;
 
-    @Valid
-    private UserDTO userDTO = new UserDTO();  // Tento objekt obsahuje email
+
+    private UserDTO userDTO; // Tento objekt obsahuje email
 
 
-    public UserDTO getUserDTO() {
-        return userDTO;
+    public InsuredPersonDTO() {
+        this.userDTO = new UserDTO();
     }
 
     public void setUserDTO(UserDTO userDTO) {
         this.userDTO = userDTO;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
     }
 
     // Getter a setter pro email (přímo v DTO, ale lze i z UserDTO)

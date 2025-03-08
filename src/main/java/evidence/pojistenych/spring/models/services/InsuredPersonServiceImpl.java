@@ -7,6 +7,7 @@ import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.data.repository.UserRepository;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
+import evidence.pojistenych.spring.models.dto.mappers.InsuredPersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,21 +24,28 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     private UserRepository userRepository;
 
     @Autowired
-    InsuranceMapper insuranceMapper;
+    InsuredPersonMapper insuredPersonMapper;
 
     @Override
-    public void create(InsuredPersonDTO insuredPersonDTO) {
+    public InsuredPersonEntity create(InsuredPersonDTO insuredPersonDTO) {
         // Vytvoření nové entity pojištěnce
-        InsuredPersonEntity insuredPersonEntity = insuranceMapper.toEntity(insuredPersonDTO);
+
 
         // Zajistíme, že uživatel (UserEntity) existuje, předpokládáme, že uživatel je již vytvořen a propojen s pojištěncem
-        UserEntity userEntity = userRepository.findById(insuredPersonDTO.getInsuredPersonId())
-                .orElseThrow(() -> new RuntimeException("Uživatel nenalezen"));
+       UserEntity userEntity = userRepository.findByEmail(insuredPersonDTO.getUserDTO().getEmail())
+                        .orElseThrow(()-> new RuntimeException("Uživatel nenalezen"));
 
+        if (userEntity == null) {
+            userEntity = new UserEntity();
+            userEntity.setEmail(insuredPersonDTO.getEmail());
+            // Další nastavení pro uživatele
+            userRepository.save(userEntity);
+        }
+        InsuredPersonEntity insuredPersonEntity = insuredPersonMapper.toEntity(insuredPersonDTO);
         insuredPersonEntity.setUserEntity(userEntity);
 
         // Uložení pojištěnce do databáze
-        insuredPersonRepository.save(insuredPersonEntity);
+        return insuredPersonRepository.save(insuredPersonEntity);
     }
 
 

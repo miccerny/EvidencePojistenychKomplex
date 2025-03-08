@@ -51,7 +51,7 @@ public class ProjectsController {
             model.addAttribute("insuranceRecordDTO", insuranceRecordDTO);
         }
 
-        return "redirect:/projects/evidencePojistencu";
+        return "pages/home/projects/evidencePojistencu";
     }
 
     /**
@@ -63,8 +63,6 @@ public class ProjectsController {
     @GetMapping("createInsuredPerson")
     public String renderCreateInsured(@ModelAttribute InsuredPersonDTO insuredPersonDTO){
 
-        if(insuredPersonDTO.getUserDTO() == null)
-            insuredPersonDTO.setUserDTO(new UserDTO());
 
         return "pages/home/projects/createInsuredPerson";
     }
