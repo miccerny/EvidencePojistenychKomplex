@@ -6,11 +6,9 @@ import java.util.Optional;
 
 public interface InsuredPersonService {
 
-    Optional<InsuredPersonDTO> getAll();
 
     void create(InsuredPersonDTO insuredPersonDTO);
 
-    InsuredPersonDTO getById (long insuredPersonId);
 
 
 }

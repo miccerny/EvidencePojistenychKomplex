@@ -7,11 +7,13 @@ import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class InsuranceServiceImpl implements InsuranceService {
 
     /**

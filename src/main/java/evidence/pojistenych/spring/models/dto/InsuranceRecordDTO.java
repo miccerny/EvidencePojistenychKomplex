@@ -12,7 +12,7 @@ public class InsuranceRecordDTO {
     @NotBlank(message = "Vyplňte typ pojištění")
     private String insurance;
 
-
+    @NotNull
     @Positive(message = "Částká musí být vyplněna a kladné číslo")
     private double amount;
 

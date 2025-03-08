@@ -1,14 +1,14 @@
 package evidence.pojistenych.spring.models.dto;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
-public class InsuredPersonDTO extends UserDTO{
+public class InsuredPersonDTO {
 
 
-    private long insuredPersonId;
+    private long id;
 
     @NotBlank(message = "Vyplňte křestní jméno")
     @Size(min = 3, message = "Vyplňte validní křestní jméno")
@@ -27,16 +27,40 @@ public class InsuredPersonDTO extends UserDTO{
     @NotBlank(message = "Vyplňte město")
     private String city;
 
-    @NotBlank(message = "Vyplňte PSČ")
-    @Size(min = 6, max = 6, message = "Vyplňte validní PSČ")
+    @NotNull(message = "Vyplňte PSČ")
+    @Min( value = 10000, message = "PSČ musí být minámálně 10000")
+    @Max(value = 90000, message = "PSČ musí být maximálně 90000")
     private int zipCode;
 
+    @Valid
+    private UserDTO userDTO = new UserDTO();  // Tento objekt obsahuje email
+
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
+    }
+
+    // Getter a setter pro email (přímo v DTO, ale lze i z UserDTO)
+    public String getEmail() {
+        return userDTO != null ? userDTO.getEmail() : null;
+    }
+
+    public void setEmail(String email) {
+        if (userDTO != null) {
+            userDTO.setEmail(email);
+        }
+    }
+
     public long getInsuredPersonId() {
-        return insuredPersonId;
+        return id;
     }
 
     public void setInsuredPersonId(long insuredPersonId) {
-        this.insuredPersonId = insuredPersonId;
+        this.id = insuredPersonId;
     }
 
     public String getFirstName() {

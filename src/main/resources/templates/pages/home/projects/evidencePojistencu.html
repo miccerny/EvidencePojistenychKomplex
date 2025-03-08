@@ -17,6 +17,10 @@
         <a class="zaznam-tlacitko" th:href="@{/projects/createRecord}">Vytvořit nový záznam</a>
     </p>
 
+    <div th:if="${noInsurance}">
+        <p th:text="${noInsurance}"></p>
+    </div>
+
     <ul class="list-group" id="zaznam">
         <li th:each="record: ${insuranceRecordDTO}" class="list-group-item">
             <div class="table-responsive">
@@ -28,7 +32,6 @@
 
                 </tr>
                 </thead>
-
         <div>
             <tbody>
             <tr>

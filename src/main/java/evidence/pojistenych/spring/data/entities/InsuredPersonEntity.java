@@ -1,6 +1,7 @@
 package evidence.pojistenych.spring.data.entities;
 
 import jakarta.persistence.*;
+import org.mapstruct.control.MappingControl;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class InsuredPersonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String firstName;
@@ -29,15 +30,22 @@ public class InsuredPersonEntity {
     @Column(nullable = false)
     private int zipCode;
 
+
     @OneToOne
-    @JoinColumn(name = "user_account_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_account_id", referencedColumnName = "userId", nullable = false)
     private UserEntity userEntity;
+
 
     @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.ALL)
     private List<InsuranceEntity> insuranceEntities;
 
+    public List<InsuranceEntity> getInsuranceEntities() {
+        return insuranceEntities;
+    }
 
-
+    public void setInsuranceEntities(List<InsuranceEntity> insuranceEntities) {
+        this.insuranceEntities = insuranceEntities;
+    }
 
     public Long getId() {
         return id;
@@ -95,6 +103,15 @@ public class InsuredPersonEntity {
         this.zipCode = zipCode;
     }
 
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 
+    public UserEntity getUserEntity(){
+        return userEntity;
+    }
 
+    public void setInsuranceEntities(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
 }

@@ -2,6 +2,7 @@ package evidence.pojistenych.spring.controllers;
 
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
+import evidence.pojistenych.spring.models.dto.UserDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
@@ -28,6 +29,10 @@ public class ProjectsController {
     @Autowired
     private InsuranceService insuranceService;
 
+    @Autowired
+    private InsuredPersonService insuredPersonService;
+
+
 
     /**
      *
@@ -39,8 +44,14 @@ public class ProjectsController {
     public String renderPojistenci(Model model){
 
         List<InsuranceRecordDTO> insuranceRecordDTO = insuranceService.getAll();
-        model.addAttribute("insuranceRecordDTO", insuranceRecordDTO);
-        return "pages/home/projects/evidencePojistencu";
+
+        if (insuranceRecordDTO.isEmpty()) {
+            model.addAttribute("noInsurance", "Žádné pojištění k dispozici");  // Předáme informaci do modelu
+        } else {
+            model.addAttribute("insuranceRecordDTO", insuranceRecordDTO);
+        }
+
+        return "redirect:/projects/evidencePojistencu";
     }
 
     /**
@@ -52,7 +63,33 @@ public class ProjectsController {
     @GetMapping("createInsuredPerson")
     public String renderCreateInsured(@ModelAttribute InsuredPersonDTO insuredPersonDTO){
 
+        if(insuredPersonDTO.getUserDTO() == null)
+            insuredPersonDTO.setUserDTO(new UserDTO());
+
         return "pages/home/projects/createInsuredPerson";
+    }
+
+    @PostMapping("/createInsuredPerson")
+    public String createInsuredPerson(@Valid @ModelAttribute InsuredPersonDTO insuredPersonDTO,
+                                      BindingResult bindingResult,
+                                      RedirectAttributes redirectAttributes){
+
+        if(bindingResult.hasErrors()){
+            System.out.println("❌ Formulář obsahuje chyby: " + bindingResult.getAllErrors());
+            return "pages/home/projects/createInsuredPerson";
+        }
+
+        try {
+            insuredPersonService.create(insuredPersonDTO);
+            redirectAttributes.addFlashAttribute("success", "Pojištěnec uspěšně vytvořen");
+        }catch (Exception e){
+            System.out.println("❌ Chyba při ukládání do databáze: " + e.getMessage());
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "Chyba při vytváření pojištěnce");
+
+        }
+
+        return "redirect:/projects/createInsuredPerson";
     }
 
 
@@ -82,7 +119,7 @@ public class ProjectsController {
             insuranceService.create(insuranceRecord);
             redirectAttributes.addFlashAttribute("success", "Pojištění vytvořeno");
 
-            return "redirect:/projects/evidencePojistencu";
+            return "redirect:/account/register";
 
     }
 
