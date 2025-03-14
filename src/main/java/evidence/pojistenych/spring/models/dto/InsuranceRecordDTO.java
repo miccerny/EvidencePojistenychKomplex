@@ -1,5 +1,6 @@
 package evidence.pojistenych.spring.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,7 +13,7 @@ public class InsuranceRecordDTO {
     @NotBlank(message = "Vyplňte typ pojištění")
     private String insurance;
 
-    @NotNull
+    @NotNull(message = "Částka nesmí být nula")
     @Positive(message = "Částká musí být vyplněna a kladné číslo")
     private double amount;
 

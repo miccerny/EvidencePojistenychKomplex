@@ -6,14 +6,15 @@
 <body>
     <header th:replace="~{fragments/layoutProject.html ::header}">
     </header>
+    <div class="py-2 flash-message message-success" th:text="${success}" th:if="${success}"></div>
+    <div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
 
     <article>
         <div id="centrovac">
 
             <input type="hidden" name="insuredPersonId" value="${insuredPerson.id}">
-            <p sec:authorize="hasRole('ADMIN')"><a class="zaznam-tlacitko"
-                    th:href="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">Vytvořit nový
-                    záznam</a></p>
+            <p sec:authorize="hasRole('ADMIN')">
+                <a class="zaznam-tlacitko" th:href="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">Vytvořit nový záznam</a></p>
 
             <header>
                 <h1>Detail pojištěnce včetně pojištění</h1>
@@ -69,13 +70,16 @@
                         </div>
                     </li>
                 </ul>
-                <div>
-                    <a class="zaznam-tlacitko mt-3" th:href="@{/home/recordsOfInsuredPeople}">Zpět na Evidenci</a>
-                </div>
+
             </section>
 
+
+        </div>
+        <div class="d-flex flex-column align-items-center mt-4">
+        <a  class="zaznam-tlacitko mt-3" th:href="@{/home/recordsOfInsuredPeople}">Zpět na Evidenci</a>
         </div>
     </article>
+
 
     <footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
 </body>

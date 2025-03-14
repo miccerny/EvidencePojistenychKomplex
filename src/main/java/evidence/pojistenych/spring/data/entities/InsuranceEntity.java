@@ -1,5 +1,6 @@
 package evidence.pojistenych.spring.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -26,9 +27,11 @@ public class InsuranceEntity {
     @Column(nullable = false, name = "subject_Of_Insurance")
     private String subjectOfInsurance;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     @Column(nullable = false, name = "start_date")
     private LocalDate dateFrom;
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     @Column(nullable = false, name = "end_date")
     private LocalDate dateTo;
 

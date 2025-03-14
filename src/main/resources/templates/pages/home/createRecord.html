@@ -1,44 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head th:replace="~{fragments/layoutProject.html :: head}"></head>
 
 <body>
   <header th:replace="~{fragments/layoutProject.html ::header}"></header>
+  <div class="py-2 flash-message message-success" th:text="${success}" th:if="${success}"></div>
+  <div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
+
 
   <article>
-    <div id="centrovac">
+    <div class=>
       <header>
-        <h1>Nový Záznam</h1>
+        <h1>Nové pojištění pro <span th:text="${insuredPerson.firstName + ' ' + insuredPerson.lastName}"></span></h1>
       </header>
       <section>
+        <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">
 
         <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2" method="post"
           th:action="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">
-          <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">
           <div class="form-group">
-            <label for="insurance" class="control-label">Pojištění</label>
-            <input id="insurance" th:field="*{insurance}">
+            <label for="insurance" class="control-label">Vyberte typ Pojištění</label></br>
+            <select id="insurance" th:field="*{insurance}">
+              <option value="Domacnosti">Domácnosti</option>
+              <option value="Povinne Ruceni">Povinné ručení</option>
+              <option value="Havarjní">Havarijní pojištění</option>
+              <option value="Odpovednosti">Odpovědnosti</option>
+              <option value="Životní">Životní</option>
+              <option value="Úrazové">Úrazové</option>
+              <option value="Majetku">Majetku</option>
+            </select>
             <small class="text-danger" th:errors="*{insurance}"></small>
           </div>
           <div class="form-group">
-            <label for="amount" class="control-label">Částka</label>
-            <input id="amount" th:field="*{amount}">
-            <small class="text-danger" th:errors="*{amount}"></small>
-          </div>
-          <div class="form-group">
-            <label for="subjectOfInsurance" class="control-label">Předmět pojištění</label>
-            <input id="subjectOfInsurance" th:field="*{subjectOfInsurance}">
+            <label for="subjectOfInsurance" class="control-label">Předmět pojištění</label></br>
+            <input id="subjectOfInsurance" th:field="*{subjectOfInsurance}" placeholder="Byt" />
             <small class="text-danger" th:errors="*{subjectOfInsurance}"></small>
           </div>
           <div class="form-group">
-            <label for="dateFrom" class="control-label">Platnost Od</label>
-            <input id="dateFrom" th:field="*{dateFrom}">
+            <label for="amount" class="control-label">Částka</label></br>
+            <input id="amount" th:field="*{amount}" placeholder="např. 600" />
+            <small class="text-danger" th:errors="*{amount}"></small>
+          </div>
+          <div class="form-group">
+            <label for="dateFrom" class="control-label">Platnost Od</label></br>
+            <input id="dateFrom" th:field="*{dateFrom}" placeholder="01.01.2025" />
             <small class="text-danger" th:errors="*{dateFrom}"></small>
           </div>
           <div class="form-group">
-            <label for="dateTo" class="control-label">Platnost Do</label>
-            <input id="dateTo" th:field="*{dateTo}">
+            <label for="dateTo" class="control-label">Platnost Do</label></br>
+            <input id="dateTo" th:field="*{dateTo}" placeholder="31.12.2026" />
             <small class="text-danger" th:errors="*{dateTo}"></small>
           </div>
           <div class="form-group">

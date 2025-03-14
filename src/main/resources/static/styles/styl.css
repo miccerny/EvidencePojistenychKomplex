@@ -155,49 +155,11 @@ footer a {
     text-align: center;
 }
 
-.avatar{
-	float: right;
-	width: 300px;
-	padding-left: 10px;
-	filter: grayscale(1);
-}
-
 .cistic {
     clear: both;
 }
 
-.reference-tlacitko {
-    background: #70B73A;
-    color: white;
-    font-size: 0.9em;
-    text-decoration: none;
-    text-transform: uppercase;
-    padding: 12px 25px;
-    border-radius: 25px;
-}
 
-#reference img {
-    border: 1px solid gray;
-    padding: 6px;
-    box-shadow: 3px 3px 6px #999999;
-    margin-right: 6px;
-}
-#reference a {
-    text-decoration: none;
-}
-
-#reference a:hover {
-    text-decoration: none;
-}
-
-.kontakt-tlacitko {
-    background: #EF6534;
-    padding: 10px 20px;
-    border-radius: 20px;
-}
-
-.kontakt-tlacitko:hover,
-.reference-tlacitko:hover,
 .evidence-tlacitko:hover {
     filter: brightness(115%) contrast(85%);
     border: 0;
@@ -205,22 +167,16 @@ footer a {
 .vlevo {
     float: left;
 }
-#dovednosti td {
-    width: 33%;
-    padding: 10px;
-    vertical-align: top;
-    border: 1px solid gray;
-}
-#dovednosti {
-    border-collapse: collapse;
-}
-
-.dovednosti a{
-    color: #EF6534;
-    text-decoration:underline
-}
 
 a:hover {
+    color: currentColor;
+}
+
+button:hover{
+    color: currentColor;
+}
+
+btn:hover{
     color: currentColor;
 }
 
@@ -231,15 +187,44 @@ a:hover {
     text-transform: uppercase;
     padding: 10px 20px;
     margin: 15px 0;
-    margin-top: 20px;
+    margin-top: 20px auto;
     border-radius: 20px;
     border: 0;
+    hover:
 }
 
-#clanky li h2 a {
-    text-decoration: none;
-    color: #00386B;
+input, select {
+   width: 50%;
+       padding: 5px 5px;
+       border: 1px solid rgba(0, 0, 0, 0.2); /* Jemně šedý okraj */
+       background: rgba(255, 255, 255, 0.9); /* Méně průhledné, ale stále elegantní */
+       border-radius: 25px; /* Kulaté rohy */
+       outline: none;
+       font-size: 14px;
+       color: black;
+       transition: all 0.3s ease-in-out;
+       box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="rgba(0, 0, 0, 0.5)" d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 35px;
+}
+
+input:placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus, select:focus {
+   border-color: rgba(0, 0, 0, 0.5);
+   background: rgba(255, 255, 255, 1);
+   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+
 
 /*
 Flash messages
