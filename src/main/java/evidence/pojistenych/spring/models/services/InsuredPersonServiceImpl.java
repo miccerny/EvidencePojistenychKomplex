@@ -1,52 +1,66 @@
 package evidence.pojistenych.spring.models.services;
 
-
+import evidence.pojistenych.spring.InsuranceRecordsApplication;
 import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
-import evidence.pojistenych.spring.data.entities.UserEntity;
 import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
-import evidence.pojistenych.spring.data.repository.UserRepository;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
-import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.dto.mappers.InsuredPersonMapper;
+import evidence.pojistenych.spring.models.exceptions.InsuredNotFoundExcption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
-@Transactional
 public class InsuredPersonServiceImpl implements InsuredPersonService {
-
-    @Autowired
-    private InsuredPersonRepository insuredPersonRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     InsuredPersonMapper insuredPersonMapper;
 
-    @Override
-    public InsuredPersonEntity create(InsuredPersonDTO insuredPersonDTO) {
-        // Vytvoření nové entity pojištěnce
+    @Autowired
+    InsuredPersonRepository insuredPersonRepository;
 
-
-        // Zajistíme, že uživatel (UserEntity) existuje, předpokládáme, že uživatel je již vytvořen a propojen s pojištěncem
-       UserEntity userEntity = userRepository.findByEmail(insuredPersonDTO.getUserDTO().getEmail())
-                        .orElseThrow(()-> new RuntimeException("Uživatel nenalezen"));
-
-        if (userEntity == null) {
-            userEntity = new UserEntity();
-            userEntity.setEmail(insuredPersonDTO.getEmail());
-            // Další nastavení pro uživatele
-            userRepository.save(userEntity);
-        }
+    public void create(InsuredPersonDTO insuredPersonDTO) {
         InsuredPersonEntity insuredPersonEntity = insuredPersonMapper.toEntity(insuredPersonDTO);
-        insuredPersonEntity.setUserEntity(userEntity);
-
-        // Uložení pojištěnce do databáze
-        return insuredPersonRepository.save(insuredPersonEntity);
+         insuredPersonRepository.save(insuredPersonEntity);
     }
 
+    public List<InsuredPersonDTO> getAll() {
+        List<InsuredPersonDTO> insuredList = StreamSupport.stream(insuredPersonRepository.findAll().spliterator(), false)
+                .map(i -> insuredPersonMapper.toDTO(i))
+                .toList();
 
+        // Debug výpis
+        for (InsuredPersonDTO person : insuredList) {
+            System.out.println("ID: " + person.getId() + ", Jméno: " + person.getFirstName());
+        }
+        return  insuredList;
+    }
+
+    public InsuredPersonDTO getById(Long id) {
+        return insuredPersonRepository.findById(id)
+                .map(insuredPersonMapper::toDTO)
+                .orElse(null);
+    }
+
+    @Override
+    public void edit(InsuredPersonDTO insuredPersonDTO) {
+        InsuredPersonEntity fetchedInsuredPerson = getInsuredPersonOrThrow(insuredPersonDTO.getId());
+
+        insuredPersonMapper.updateInsuredPersonEntity(insuredPersonDTO, fetchedInsuredPerson);
+        insuredPersonRepository.save(fetchedInsuredPerson);
+    }
+
+    public void delete(Long id) {
+        insuredPersonRepository.deleteById(id);
+    }
+
+    private InsuredPersonEntity getInsuredPersonOrThrow(Long id){
+        return insuredPersonRepository.findById(id)
+                .orElseThrow(InsuredNotFoundExcption::new);
+
+    }
 }

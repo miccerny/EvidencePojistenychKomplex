@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = InsuranceMapper.class)
 public interface InsuredPersonMapper {
 
-    @Mapping(source = "userEntity.email", target = "email")  // Tady se používá cesta k 'email' v 'userEntity'
+    @Mapping(source = "insuranceEntities", target = "insuranceEntities")
     InsuredPersonDTO toDTO(InsuredPersonEntity source);
 
-    // Mapování mezi InsuredPersonDTO a InsuredPersonEntity
-    @Mapping(source = "email", target = "userEntity.email")  // Mapování emailu z DTO do entity
+    @Mapping(target = "insuranceEntities", source = "insuranceEntities")
     InsuredPersonEntity toEntity(InsuredPersonDTO source);
 
     void updateInsuredPersonDTO(InsuredPersonDTO source, @MappingTarget InsuredPersonDTO target);

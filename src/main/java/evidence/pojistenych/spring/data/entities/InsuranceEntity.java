@@ -2,10 +2,11 @@ package evidence.pojistenych.spring.data.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
+@Table(name = "insured_person_entity")
 public class InsuranceEntity {
 
     @Id
@@ -16,7 +17,7 @@ public class InsuranceEntity {
     private String insurance;
 
     @Column(nullable = false)
-    private double amount;
+    private BigDecimal amount;
 
     @Column(nullable = false)
     private String subjectOfInsurance;
@@ -30,6 +31,16 @@ public class InsuranceEntity {
     @ManyToOne
     @JoinColumn(name = "insured_person_id", referencedColumnName = "id")
     private InsuredPersonEntity insuredPerson;
+
+    public InsuredPersonEntity getInsuredPerson() {
+        return insuredPerson;
+    }
+
+    public void setInsuredPerson(InsuredPersonEntity insuredPerson) {
+        this.insuredPerson = insuredPerson;
+    }
+
+
 
 
     public Long getInsuranceId() {
@@ -48,12 +59,12 @@ public class InsuranceEntity {
         this.insurance = insurance;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
     public void setAmount(double amount) {
-        this.amount = amount;
+        this.amount = BigDecimal.valueOf(amount);
     }
 
     public String getSubjectOfInsurance() {

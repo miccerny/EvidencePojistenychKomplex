@@ -1,7 +1,7 @@
 package evidence.pojistenych.spring.data.entities;
 
 import jakarta.persistence.*;
-import org.mapstruct.control.MappingControl;
+import jakarta.validation.constraints.Email;
 
 import java.util.List;
 
@@ -10,13 +10,17 @@ public class InsuredPersonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    @Email
+    private String email;
 
     @Column(nullable = false)
     private String phoneNumber;
@@ -31,12 +35,8 @@ public class InsuredPersonEntity {
     private int zipCode;
 
 
-    @OneToOne
-    @JoinColumn(name = "user_account_id", referencedColumnName = "userId", nullable = false)
-    private UserEntity userEntity;
-
-
-    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="id", referencedColumnName = "insured_person_id")
     private List<InsuranceEntity> insuranceEntities;
 
     public List<InsuranceEntity> getInsuranceEntities() {
@@ -71,6 +71,14 @@ public class InsuredPersonEntity {
         this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -101,17 +109,5 @@ public class InsuredPersonEntity {
 
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
-
-    public UserEntity getUserEntity(){
-        return userEntity;
-    }
-
-    public void setInsuranceEntities(UserEntity userEntity) {
-        this.userEntity = userEntity;
     }
 }

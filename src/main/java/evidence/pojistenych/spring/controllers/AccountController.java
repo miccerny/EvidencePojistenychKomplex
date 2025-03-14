@@ -43,16 +43,14 @@ public class AccountController {
 
         try {
             userService.create(userDTO, false);
-        }catch (DuplicateEmailException e){
-            bindingResult.rejectValue("email", "error", "Email je již používán");
+        } catch (DuplicateEmailException e) {
+            bindingResult.rejectValue("email", "error", "Email je již používán.");
             return "/pages/account/register";
-        }catch (PasswordsDoNotEqualException e){
-            bindingResult.rejectValue("password", "error", "Hesla se neshodují");
-            bindingResult.rejectValue("confirmPassword", "error", "Hesla se neshodují");
+        } catch (PasswordsDoNotEqualException e) {
+            bindingResult.rejectValue("password", "error", "Hesla se nerovnají.");
+            bindingResult.rejectValue("confirmPassword", "error", "Hesla se nerovnají.");
             return "/pages/account/register";
         }
-
-
 
         redirectAttributes.addFlashAttribute("success", "Uživatel registrován.");
         return "redirect:/account/login";

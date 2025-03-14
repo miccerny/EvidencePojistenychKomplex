@@ -26,8 +26,8 @@
         </div>
         <div class="form-group">
           <label for="email" class="control-label">Email</label>
-          <input id="email" th:field="*{userDTO.email}">
-          <small class="text-danger" th:errors="*{userDTO.email}"></small>
+          <input id="email" th:field="*{email}">
+          <small class="text-danger" th:errors="*{email}"></small>
         </div>
         <div class="form-group">
           <label for="phoneNumber" class="control-label">Telefon</label>
@@ -57,7 +57,7 @@
       </form>
 
       <p>
-        <a class="zaznam-tlacitko" th:href="@{/projects/evidencePojistencu}">Zpět na Evidenci</a>
+        <a class="zaznam-tlacitko" th:href="@{/projects/recordsOfInsuredPeople}">Zpět na Evidenci</a>
       </p>
     </section>
   </div>

@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class ApplicationSecurityConfiguration {
 
 
@@ -17,14 +18,15 @@ public class ApplicationSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws  Exception{
 
-        return httpSecurity.authorizeHttpRequests()
+        return httpSecurity
+                .authorizeHttpRequests()
                 .anyRequest()
-                .permitAll()
+                .permitAll() // <-- Všechny stránky povolíme (pravidla budeme definovat přímo v kontroleru)
                 .and()
                 .formLogin()
                 .loginPage("/account/login")
                 .loginProcessingUrl("/account/login")
-                .defaultSuccessUrl("/projects/evidencePojistencu", true)
+                .defaultSuccessUrl("/projects/recordsOfInsuredPeople", true)
                 .usernameParameter("email")
                 .permitAll()
                 .and()
@@ -32,6 +34,7 @@ public class ApplicationSecurityConfiguration {
                 .logoutUrl("/account/logout")
                 .and()
                 .build();
+
     }
 
     @Bean
