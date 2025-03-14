@@ -6,11 +6,9 @@ import java.util.List;
 
 public interface InsuranceService {
 
-    List<InsuranceRecordDTO> getAll();
-
     void create(InsuranceRecordDTO insuranceRecordDTO);
 
-    InsuranceRecordDTO getById(long insuranceId);
+    InsuranceRecordDTO getById(Long insuranceId);
 
     void edit(InsuranceRecordDTO insuranceRecordDTO);
 

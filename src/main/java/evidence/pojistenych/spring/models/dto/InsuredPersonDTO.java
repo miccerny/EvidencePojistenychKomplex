@@ -1,14 +1,16 @@
 package evidence.pojistenych.spring.models.dto;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 
-public class InsuredPersonDTO extends UserDTO{
+public class InsuredPersonDTO {
 
 
-    private long insuredPersonId;
+    private Long id;
 
     @NotBlank(message = "Vyplňte křestní jméno")
     @Size(min = 3, message = "Vyplňte validní křestní jméno")
@@ -17,6 +19,11 @@ public class InsuredPersonDTO extends UserDTO{
     @NotBlank(message = "Vyplňte příjmení")
     @Size(min = 3, message = "Vyplňte validní příjmení")
     private String lastName;
+
+    @NotBlank(message = "Vyplňte email")
+    @Email(message = "Email mus být validní")
+    private String email;
+
 
     @NotBlank(message = "Vyplňte telefonní číslo")
     private String phoneNumber;
@@ -27,18 +34,30 @@ public class InsuredPersonDTO extends UserDTO{
     @NotBlank(message = "Vyplňte město")
     private String city;
 
-    @NotBlank(message = "Vyplňte PSČ")
-    @Size(min = 6, max = 6, message = "Vyplňte validní PSČ")
+    @NotNull(message = "Vyplňte PSČ")
+    @Min( value = 10000, message = "PSČ musí být minámálně 10000")
+    @Max(value = 90000, message = "PSČ musí být maximálně 90000")
     private int zipCode;
 
-    public long getInsuredPersonId() {
-        return insuredPersonId;
+
+
+    private List<InsuranceRecordDTO> insuranceEntities;
+
+    public List<InsuranceRecordDTO> getInsuranceEntities() {
+        return insuranceEntities;
     }
 
-    public void setInsuredPersonId(long insuredPersonId) {
-        this.insuredPersonId = insuredPersonId;
+    public void setInsuranceEntities(List<InsuranceRecordDTO> insuranceEntities) {
+        this.insuranceEntities = insuranceEntities;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -54,6 +73,15 @@ public class InsuredPersonDTO extends UserDTO{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public String getPhoneNumber() {
         return phoneNumber;

@@ -1,11 +1,11 @@
 package evidence.pojistenych.spring.data.repository;
 
 import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+@Repository
+public interface InsuredPersonRepository extends JpaRepository<InsuredPersonEntity, Long> {
 
-public interface InsuredPersonRepository {
-
-    Optional<InsuredPersonEntity> findByUserAccount(InsuredPersonEntity insuredPersonEntity);
-
+    InsuredPersonEntity getById (Long id);
 }

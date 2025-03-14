@@ -12,8 +12,8 @@
     <section>
 
       <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2"
-          method="post"
-            th:action="@{/projects/createRecord}">
+          method="post" th:action="@{/projects/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">
+        <input type="hidden" name="insuredPersonId" value="${insuredPerson.id}">
         <div class="form-group">
         <label for="insurance" class="control-label">Pojištění</label>
         <input id="insurance" th:field="*{insurance}">
@@ -46,7 +46,7 @@
       </form>
 
       <p>
-        <a class="zaznam-tlacitko" th:href="@{/projects/evidencePojistencu}">Zpět na Evidenci</a>
+        <a class="zaznam-tlacitko" th:href="@{/projects/recordsOfInsuredPeople}">Zpět na Evidenci</a>
       </p>
     </section>
   </div>

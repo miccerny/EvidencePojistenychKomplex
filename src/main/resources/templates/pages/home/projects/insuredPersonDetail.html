@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/layoutProject.html :: head}"></head>
+<body>
+<header th:replace="~{fragments/layoutProject.html ::header}">
+</header>
+
+<article>
+    <div id="centrovac">
+
+        <input type="hidden" name="insuredPersonId" value="${insuredPerson.id}">
+        <p sec:authorize="hasRole('ADMIN')"><a class="zaznam-tlacitko" th:href="@{/projects/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">Vytvořit nový záznam</a></p>
+
+        <header>
+            <h1>Evidence pojištění</h1>
+        </header>
+
+        <h1>Detail pojištěnce</h1>
+        <p><strong>Jméno:</strong> <span th:text="${insuredPerson.firstName}"></span> <span th:text="${insuredPerson.lastName}"></span></p>
+        <p><strong>Telefon:</strong> <span th:text="${insuredPerson.phoneNumber}"></span></p>
+        <p><strong>Adresa:</strong> <span th:text="${insuredPerson.street}"></span>, <span th:text="${insuredPerson.city}"></span>, <span th:text="${insuredPerson.zipCode}"></span></p>
+        <section>
+            <div th:if="${insurances == null or insurances.isEmpty()}">
+                <p>Žádná pojištění nenalezena.</p>
+            </div>
+            <ul class="list-group" id="zaznam">
+                <li th:each="insurance: ${insuranceRecords}" class="list-group-item">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-fixe">
+                            <thead>
+                            <tr>
+
+                                <th th:text= "${insurance.insurance}"></th>
+
+                            </tr>
+                            </thead>
+
+                                <tbody>
+                                <tr>
+
+                                    <td class="text-nowrap">
+                                        <p><strong>Telefonní číslo:</strong> </p>
+                                        <p><span th:text="${insurance.subjectOfInsurance}"></span> Kč</p>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <p><strong>Ulice:</strong></p>
+                                        <p><span th:text="${insurance.amount}"></span></p>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <p><strong>Město:</strong> </p>
+                                        <p><span th:text="${insurance.dateFrom}"></span></p>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <p><strong>PSČ:</strong> </p>
+                                        <p><span th:text="${insurance.dateTo}"></span></p>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <p sec:authorize="hasRole('ADMIN')"><a th:href="@{/projects/editRecord/{insuranceId}(insuranceId=${insurance.insuranceId})}">Editovat</a></p>
+                                        <p sec:authorize="hasRole('ADMIN')"><a th:href="@{/projects/delete/{insuranceId}(insuranceId=${insurance.insuranceId})}">Odstranit</a></p>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                        </table>
+                    </div>
+                </li>
+            </ul>
+
+            <p th:if="${#lists.isEmpty(insuranceRecords)}">Žádné pojištění k dispozici</p>
+
+
+
+            <p>
+                <a class="zaznam-tlacitko" th:href="@{/projects/recordsOfInsuredPeople}">Zpět na Evidenci</a>
+            </p>
+        </section>
+
+    </div>
+</article>
+
+<footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
+</body>
+</html>

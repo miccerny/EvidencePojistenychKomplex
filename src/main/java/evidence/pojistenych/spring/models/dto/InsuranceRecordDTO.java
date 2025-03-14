@@ -7,12 +7,14 @@ import java.time.LocalDate;
 
 public class InsuranceRecordDTO {
 
-    private long insuranceId;
+    private Long insuranceId;
+
+
 
     @NotBlank(message = "Vyplňte typ pojištění")
     private String insurance;
 
-
+    @NotNull
     @Positive(message = "Částká musí být vyplněna a kladné číslo")
     private double amount;
 
@@ -33,18 +35,31 @@ public class InsuranceRecordDTO {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate dateTo;
 
-    public long getInsuranceId() {
+    @NotNull
+    private Long insuredPersonId;
+
+    public Long getInsuranceId() {
         return insuranceId;
     }
 
-    public void setInsuranceId(long insuranceId) {
+    public void setInsuranceId(Long insuranceId) {
         this.insuranceId = insuranceId;
+    }
+
+    public Long getInsuredPersonId() {
+        return insuredPersonId;
+    }
+
+    public void setInsuredPersonId(Long insuredPersonId) {
+        this.insuredPersonId = insuredPersonId;
     }
 
     /**
      *
      * @return
      */
+
+
     public String getInsurance() {
         return insurance;
     }

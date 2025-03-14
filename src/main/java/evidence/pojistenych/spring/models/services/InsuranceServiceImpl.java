@@ -1,19 +1,24 @@
 package evidence.pojistenych.spring.models.services;
 
 import evidence.pojistenych.spring.data.entities.InsuranceEntity;
+import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
 import evidence.pojistenych.spring.data.repository.InsuranceRepository;
+import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.StreamSupport;
 
 @Service
+@Transactional
 public class InsuranceServiceImpl implements InsuranceService {
 
+    private static final Logger log = LoggerFactory.getLogger(InsuranceServiceImpl.class);
     /**
      *
      */
@@ -27,29 +32,45 @@ public class InsuranceServiceImpl implements InsuranceService {
     @Autowired
     private InsuranceMapper insuranceMapper;
 
+    @Autowired
+    private InsuredPersonRepository insuredPersonRepository;
+
+
     /**
      *
-     * @param insuranceRecordDTO
+     * @param
      */
+    @Transactional
     @Override
     public void create(InsuranceRecordDTO insuranceRecordDTO){
-        InsuranceEntity newInsurance = insuranceMapper.toEntity(insuranceRecordDTO);
+        log.debug("Metoda create() byla zavolána s DTO: {}", insuranceRecordDTO);
+        if (insuranceRecordDTO == null) {
+            throw new IllegalArgumentException("Pojištění nesmí být null");
+        }
 
-        insuranceRepository.save(newInsurance);
+        if(insuranceRecordDTO.getInsuredPersonId()==null){
+            throw new IllegalArgumentException("Pojištěnec není přiřazen k pojištění");
+        }
+        
 
+        InsuranceEntity insuranceEntity = insuranceMapper.toEntity(insuranceRecordDTO);
+
+        InsuredPersonEntity insuredPersonEntity = insuredPersonRepository.findById(insuranceRecordDTO.getInsuredPersonId())
+                        .orElseThrow(()-> new RuntimeException("Pojištěnec s ID " + insuranceRecordDTO.getInsuredPersonId() + " nenalezen"));
+
+
+        insuranceEntity.setInsuredPerson(insuredPersonEntity);
+
+        insuranceRepository.save(insuranceEntity);
+
+
+        log.debug("Pojištění vytvořeno: {}", insuranceEntity);
     }
 
-    @Override
-    public List<InsuranceRecordDTO> getAll(){
-        List<InsuranceRecordDTO> result = StreamSupport.stream(insuranceRepository.findAll().spliterator(), false)
-                .map(insuranceEntity -> insuranceMapper.toDTO(insuranceEntity)).toList();
 
-        System.out.println("Pojištění v databázi: " + result.size() + " záznamů.");
-        return result;
-    }
 
     @Override
-    public InsuranceRecordDTO getById(long insuranceId){
+    public InsuranceRecordDTO getById(Long insuranceId){
         InsuranceEntity fetchedInsurance = insuranceRepository
                 .findById(insuranceId)
                 .orElseThrow();
