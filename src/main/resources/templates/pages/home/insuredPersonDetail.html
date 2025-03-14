@@ -72,7 +72,17 @@
                 </ul>
 
             </section>
+            <div class="pagination">
+                <p th:if="${currentPage > 0}">
+                    <a th:href="@{/home/insuredPersonDetail/{id}(id=${insuredPerson.id}, page=${currentPage - 1}, size=${size})}">Předchozí</a>
+                </p>
 
+                <p>Stránka <span th:text="${currentPage + 1}"></span> z <span th:text="${totalPages}"></span></p>
+
+                <p th:if="${currentPage < totalPages - 1}">
+                    <a th:href="@{/home/insuredPersonDetail/{id}(id=${insuredPerson.id}, page=${currentPage + 1}, size=${size})}">Další</a>
+                </p>
+            </div>
 
         </div>
         <div class="d-flex flex-column align-items-center mt-4">

@@ -7,6 +7,9 @@ import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuredPersonMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuredNotFoundExcption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +39,9 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
      *
      * @return
      */
+
     public List<InsuredPersonDTO> getAll() {
+
         List<InsuredPersonDTO> insuredList = StreamSupport.stream(insuredPersonRepository.findAll().spliterator(), false)
                 .map(i -> insuredPersonMapper.toDTO(i))
                 .toList();

@@ -14,6 +14,9 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,14 +47,25 @@ public class InsuranceController {
     private InsuranceRepository insuranceRepository;
 
     @GetMapping("insuredPersonDetail/{id}")
-    public String getInsuredPersonDetail(@PathVariable Long id, Model model) {
+    public String getInsuredPersonDetail(@PathVariable Long id, Model model,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "3") int size)
+            {
+
+
         InsuredPersonEntity insuredPersonEntity = insuredPersonRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Pojištěnec nenalezen"));
 
 
-        List<InsuranceEntity> insuranceRecords = insuranceRepository.findByInsuredPerson(insuredPersonEntity);
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<InsuranceEntity> insuranceRecords = insuranceRepository.findByInsuredPerson(insuredPersonEntity, pageable);
+
         model.addAttribute("insuredPerson", insuredPersonEntity);
-        model.addAttribute("insurances", insuranceRecords);
+        model.addAttribute("insurances", insuranceRecords.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", insuranceRecords.getTotalPages());
+        model.addAttribute("totalItems", insuranceRecords.getTotalElements());
 
         return "pages/home/insuredPersonDetail"; // Odkaz na šablonu Thymeleaf
     }
