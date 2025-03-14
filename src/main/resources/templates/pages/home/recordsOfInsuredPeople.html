@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/layoutProject.html :: head}"></head>
+
+<body>
+    <header th:replace="~{fragments/layoutProject.html ::header}">
+    </header>
+    <div class="py-2 flash-message message-success" th:text="${success}" th:if="${success}"></div>
+    <div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
+
+    <article>
+        <div id="centrovac">
+            <header>
+                <h1>Evidence pojištěnců</h1>
+            </header>
+            <section>
+
+                <p sec:authorize="hasRole('ADMIN')"><a class="zaznam-tlacitko"
+                        th:href="@{/home/createInsuredPerson}">Vytvořit nový záznam pojištěného</a></p>
+
+                <div th:if="${noInsuredPerson}">
+                    <p th:text="${noInsuredPerson}"></p>
+                </div>
+
+                <ul class="list-group" id="zaznam">
+                    <li th:each="record: ${insuredPersonDTO}" class="list-group-item">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-fixe">
+                                <thead>
+                                    <tr>
+
+                                        <a th:href="@{/home/insuredPersonDetail/{id}(id=${record.id})}"
+                                            th:text="${record.firstName + ' ' + record.lastName}"></a>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td class="text-nowrap">
+                                            <p><strong>Email:</strong> </p>
+                                            <p><span th:text="${record.email}"></span></p>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <p><strong>Telefonní číslo:</strong> </p>
+                                            <p><span
+                                                    th:text="${record.phoneNumber.startsWith('+') ? record.phoneNumber : '+420 ' + record.phoneNumber}"></span>
+                                            </p>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <p><strong>Ulice:</strong></p>
+                                            <p><span th:text="${record.street}"></span></p>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <p><strong>Město:</strong> </p>
+                                            <p><span th:text="${record.city}"></span></p>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <p><strong>PSČ:</strong> </p>
+                                            <p><span th:text="${record.zipCode}"></span></p>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <p sec:authorize="hasRole('ADMIN')"><a
+                                                    th:href="@{/home/editInsuredPeople/{id}(id=${record.id})}">Editovat</a>
+                                            </p>
+                                            <p sec:authorize="hasRole('ADMIN')"><a
+                                                    th:href="@{/home/deleteInsured/{id}(id=${record.id})}"
+                                                    onclick="return confirm('Opravdu chcete smazat tohoto pojištěného?');">Odstranit</a>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </li>
+                </ul>
+
+            </section>
+        </div>
+    </article>
+    <footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
+</body>
+
+</html>

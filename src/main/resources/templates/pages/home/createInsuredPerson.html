@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/layoutProject.html :: head}"></head>
+
+<body>
+  <header th:replace="~{fragments/layoutProject.html ::header}"></header>
+
+  <article>
+    <div id="centrovac">
+      <header>
+        <h1>Nový Pojištěnec</h1>
+      </header>
+      <section>
+
+        <form th:object="${insuredPersonDTO}" class="d-flex flex-column gap-2" method="post"
+          th:action="@{/home/createInsuredPerson}">
+          <div class="form-group">
+            <label for="firstName" class="control-label">Jméno</label></br>
+            <input id="firstName" th:field="*{firstName}" placeholder="např. Jan">
+            <small class="text-danger" th:errors="*{firstName}"></small>
+          </div>
+          <div class="form-group">
+            <label for="lastName" class="control-label">Příjmení</label></br>
+            <input id="lastName" th:field="*{lastName}" placeholder="např. Novák">
+            <small class="text-danger" th:errors="*{lastName}"></small>
+          </div>
+          <div class="form-group">
+            <label for="email" class="control-label">Email</label></br>
+            <input id="email" th:field="*{email}" placeholder="jan.novak@seznam.cz">
+            <small class="text-danger" th:errors="*{email}"></small>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber" class="control-label">Telefon</label></br>
+            <input id="phoneNumber" th:field="*{phoneNumber}" placeholder="+xxx xxx xxx xxxx nebo xxx xxx xxx">
+            <small class="text-danger" th:errors="*{phoneNumber}"></small>
+          </div>
+          <div class="form-group">
+            <label for="street" class="control-label">Ulice a číslo popisné</label></br>
+            <input id="street" th:field="*{street}" placeholder="Květinová 12">
+            <small class="text-danger" th:errors="*{street}"></small>
+          </div>
+          <div class="form-group">
+            <label for="city" class="control-label">Město</label></br>
+            <input id="city" th:field="*{city}" placeholder="Plzeň">
+            <small class="text-danger" th:errors="*{city}"></small>
+          </div>
+          <div class="form-group">
+            <label for="zipCode" class="control-label">PSČ</label></br>
+            <input id="zipCode" th:field="*{zipCode}" placeholder="10000 - 99999">
+            <small class="text-danger" th:errors="*{zipCode}"></small>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="zaznam-tlacitko">Uložit</button>
+          </div>
+
+        </form>
+
+        <p>
+          <a class="zaznam-tlacitko" th:href="@{/home/recordsOfInsuredPeople}">Zpět na Evidenci</a>
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <footer th:replace="~{fragments/layoutProject.html :: footer}"></footer>
+</body>
+
+</html>

@@ -23,11 +23,19 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     @Autowired
     InsuredPersonRepository insuredPersonRepository;
 
+    /**
+     *
+     * @param insuredPersonDTO
+     */
     public void create(InsuredPersonDTO insuredPersonDTO) {
         InsuredPersonEntity insuredPersonEntity = insuredPersonMapper.toEntity(insuredPersonDTO);
          insuredPersonRepository.save(insuredPersonEntity);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<InsuredPersonDTO> getAll() {
         List<InsuredPersonDTO> insuredList = StreamSupport.stream(insuredPersonRepository.findAll().spliterator(), false)
                 .map(i -> insuredPersonMapper.toDTO(i))
@@ -40,12 +48,21 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
         return  insuredList;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public InsuredPersonDTO getById(Long id) {
         return insuredPersonRepository.findById(id)
                 .map(insuredPersonMapper::toDTO)
                 .orElse(null);
     }
 
+    /**
+     *
+     * @param insuredPersonDTO
+     */
     @Override
     public void edit(InsuredPersonDTO insuredPersonDTO) {
         InsuredPersonEntity fetchedInsuredPerson = getInsuredPersonOrThrow(insuredPersonDTO.getId());
@@ -54,10 +71,20 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
         insuredPersonRepository.save(fetchedInsuredPerson);
     }
 
+    /**
+     *
+     * @param id
+     */
+    @Override
     public void delete(Long id) {
         insuredPersonRepository.deleteById(id);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private InsuredPersonEntity getInsuredPersonOrThrow(Long id){
         return insuredPersonRepository.findById(id)
                 .orElseThrow(InsuredNotFoundExcption::new);

@@ -9,8 +9,6 @@ public class InsuranceRecordDTO {
 
     private Long insuranceId;
 
-
-
     @NotBlank(message = "Vyplňte typ pojištění")
     private String insurance;
 
@@ -27,9 +25,7 @@ public class InsuranceRecordDTO {
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate dateFrom;
 
-    /**
-     *
-     */
+
     @NotNull
     @Future(message = "Musí být datum v budoucnosti")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
@@ -38,18 +34,34 @@ public class InsuranceRecordDTO {
     @NotNull
     private Long insuredPersonId;
 
+    /**
+     *
+     * @return
+     */
     public Long getInsuranceId() {
         return insuranceId;
     }
 
+    /**
+     *
+     * @param insuranceId
+     */
     public void setInsuranceId(Long insuranceId) {
         this.insuranceId = insuranceId;
     }
 
+    /**
+     *
+     * @return
+     */
     public Long getInsuredPersonId() {
         return insuredPersonId;
     }
 
+    /**
+     *
+     * @param insuredPersonId
+     */
     public void setInsuredPersonId(Long insuredPersonId) {
         this.insuredPersonId = insuredPersonId;
     }
@@ -58,8 +70,6 @@ public class InsuranceRecordDTO {
      *
      * @return
      */
-
-
     public String getInsurance() {
         return insurance;
     }

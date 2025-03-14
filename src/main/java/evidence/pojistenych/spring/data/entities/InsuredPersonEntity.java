@@ -6,10 +6,12 @@ import jakarta.validation.constraints.Email;
 import java.util.List;
 
 @Entity
+@Table(name = "insured_person_entity")
 public class InsuredPersonEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -35,8 +37,7 @@ public class InsuredPersonEntity {
     private int zipCode;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="id", referencedColumnName = "insured_person_id")
+    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InsuranceEntity> insuranceEntities;
 
     public List<InsuranceEntity> getInsuranceEntities() {

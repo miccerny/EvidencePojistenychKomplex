@@ -19,18 +19,28 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface InsuranceMapper {
 
+
         /**
          *
          * @param source
          * @return
          */
-
         @Mapping(source = "insuredPersonId", target = "insuredPerson", qualifiedByName = "mapInsuredPerson")
         InsuranceEntity toEntity(InsuranceRecordDTO source);
 
+        /**
+         *
+         * @param source
+         * @return
+         */
         @Mapping(source = "insuredPerson.id", target = "insuredPersonId")
         InsuranceRecordDTO toDTO(InsuranceEntity source);
 
+        /**
+         *
+         * @param insuredPersonId
+         * @return
+         */
         @Named("mapInsuredPerson")
         default InsuredPersonEntity mapInsuredPerson(Long insuredPersonId) {
                 if (insuredPersonId == null) {
@@ -41,6 +51,11 @@ public interface InsuranceMapper {
                 return insuredPerson;
         }
 
+        /**
+         *
+         * @param source
+         * @param target
+         */
         void updateInsuranceRecordDTO(InsuranceRecordDTO source, @MappingTarget InsuranceRecordDTO target);
         void updateInsuranceEntity(InsuranceRecordDTO source, @MappingTarget InsuranceEntity target);
 

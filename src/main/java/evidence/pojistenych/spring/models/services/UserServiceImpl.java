@@ -22,6 +22,11 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     *
+     * @param userDTO
+     * @param isAdmin
+     */
     @Override
     public void create(UserDTO userDTO, boolean isAdmin){
 
@@ -41,6 +46,12 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)

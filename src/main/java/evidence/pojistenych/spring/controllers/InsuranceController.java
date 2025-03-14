@@ -7,6 +7,7 @@ import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
+import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
 import evidence.pojistenych.spring.models.services.InsuredPersonService;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/projects")
+@RequestMapping("/home")
 public class InsuranceController {
 
     private static final Logger log = LoggerFactory.getLogger(InsuranceController.class);
@@ -52,7 +53,7 @@ public class InsuranceController {
         model.addAttribute("insuredPerson", insuredPersonEntity);
         model.addAttribute("insurances", insuranceRecords);
 
-        return "pages/home/projects/insuredPersonDetail"; // Odkaz na šablonu Thymeleaf
+        return "pages/home/insuredPersonDetail"; // Odkaz na šablonu Thymeleaf
     }
 
     @Secured("ROLE_ADMIN")
@@ -68,7 +69,7 @@ public class InsuranceController {
 
         model.addAttribute("insuredPerson", insuredPerson);
         model.addAttribute("insuranceRecordDTO", insuranceRecordDTO);
-        return "pages/home/projects/createRecord";
+        return "pages/home/createRecord";
     }
 
     @Secured("ROLE_ADMIN")
@@ -79,24 +80,39 @@ public class InsuranceController {
                                RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors())
-            return  "pages/home/projects/insuredPersonDetail";
+            return  "pages/home/insuredPersonDetail";
 
-        insuranceRecord.setInsuredPersonId(insuredPersonId);
-        insuranceService.create(insuranceRecord);
+
+            InsuredPersonEntity insuredPerson = insuredPersonRepository.findById(insuredPersonId)
+                .orElseThrow(() -> new RuntimeException("Pojištěnec nenalezen!"));
+
+            InsuranceEntity insuranceEntity = insuranceMapper.toEntity(insuranceRecord);
+            insuranceEntity.setInsuredPerson(insuredPerson);
+
+            insuranceRepository.save(insuranceEntity);
+
+
+
         redirectAttributes.addFlashAttribute("success", "Pojištění vytvořeno");
 
-        return "redirect:/projects/insuredPersonDetail/" + insuranceRecord.getInsuredPersonId();
+        return "redirect:/home/insuredPersonDetail/" + insuredPersonId;
 
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/editRecord/{isnuranceId}")
-    public String renderEditForm(@PathVariable long insuranceId,
-                                 InsuranceRecordDTO insuranceRecordDTO){
-        InsuranceRecordDTO fetchedInsurance = insuranceService.getById(insuranceId);
-        insuranceMapper.updateInsuranceRecordDTO(fetchedInsurance, insuranceRecordDTO);
+    @GetMapping("/editRecord/{insuranceId}")
+    public String renderEditForm(@PathVariable Long insuranceId,
+                                 Model model){
 
-        return "pages/home/projects/editRecord";
+        InsuranceRecordDTO fetchedInsurance = insuranceService.getById(insuranceId);
+
+        Long insuredPersonId = fetchedInsurance.getInsuredPersonId();
+        InsuredPersonDTO insuredPersonDTO = insuredPersonService.getById(insuredPersonId);
+
+        model.addAttribute("insuredPerson", insuredPersonDTO);
+        model.addAttribute("insuranceRecordDTO", fetchedInsurance);
+
+        return "pages/home/editRecord";
     }
 
     @Secured("ROLE_ADMIN")
@@ -104,15 +120,19 @@ public class InsuranceController {
     public String editInsurance(@PathVariable long insuranceId,
                                 @Valid InsuranceRecordDTO insuranceRecordDTO,
                                 BindingResult result,
-                                RedirectAttributes redirectAttributes){
+                                RedirectAttributes redirectAttributes,
+                                Model model){
         if(result.hasErrors())
-            return  renderEditForm(insuranceId, insuranceRecordDTO);
+            return  renderEditForm(insuranceId, model);
 
         insuranceRecordDTO.setInsuranceId(insuranceId);
+
+        Long insuredPersonId = insuranceRecordDTO.getInsuredPersonId();
+
         insuranceService.edit(insuranceRecordDTO);
         redirectAttributes.addFlashAttribute("success", "Pojištění upraveno");
 
-        return "redirect:/projects/recordsOfInsuredPeople";
+        return "redirect:/home/insuredPersonDetail/" + insuredPersonId;
     }
 
     @Secured("ROLE_ADMIN")
@@ -120,8 +140,16 @@ public class InsuranceController {
     public  String deleteInsurance(@PathVariable long insuranceId,
                                    RedirectAttributes redirectAttributes){
         insuranceService.remove(insuranceId);
-        redirectAttributes.addFlashAttribute("success", "Pojištěnec smazán");
+        redirectAttributes.addFlashAttribute("success", "Pojištění smazáno");
 
-        return "redirect:/projects/recordsOfInsuredPeople";
+        return "redirect:/home/recordsOfInsuredPeople";
+    }
+
+    @ExceptionHandler({InsuranceNotFoundException.class})
+    public String handleInsuranceNotFoundException(RedirectAttributes redirectAttributes){
+
+        redirectAttributes.addFlashAttribute("error", "Pojištěnec nenalezen.");
+
+        return "redirect:/home/recordsOfInsuredPeople";
     }
 }

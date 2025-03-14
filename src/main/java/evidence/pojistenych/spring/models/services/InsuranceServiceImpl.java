@@ -68,7 +68,11 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
 
-
+    /**
+     *
+     * @param insuranceId
+     * @return
+     */
     @Override
     public InsuranceRecordDTO getById(Long insuranceId){
         InsuranceEntity fetchedInsurance = insuranceRepository
@@ -77,6 +81,10 @@ public class InsuranceServiceImpl implements InsuranceService {
         return insuranceMapper.toDTO(fetchedInsurance);
     }
 
+    /**
+     *
+     * @param insuranceRecordDTO
+     */
     @Override
     public  void edit(InsuranceRecordDTO insuranceRecordDTO){
         InsuranceEntity fetchedInsurance = getInsuranceOrThrow(insuranceRecordDTO.getInsuranceId());
@@ -85,6 +93,10 @@ public class InsuranceServiceImpl implements InsuranceService {
         insuranceRepository.save(fetchedInsurance);
     }
 
+    /**
+     *
+     * @param insuranceId
+     */
     @Override
     public  void remove(long insuranceId){
         InsuranceEntity fetchedEntity = getInsuranceOrThrow(insuranceId);
@@ -92,8 +104,11 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
 
-
-
+    /**
+     *
+     * @param insuranceId
+     * @return
+     */
     private InsuranceEntity getInsuranceOrThrow(long insuranceId){
         return insuranceRepository
                 .findById(insuranceId)

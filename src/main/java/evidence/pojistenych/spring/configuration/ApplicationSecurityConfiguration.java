@@ -14,19 +14,24 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ApplicationSecurityConfiguration {
 
 
-
+    /**
+     *
+     * @param httpSecurity
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws  Exception{
 
         return httpSecurity
                 .authorizeHttpRequests()
                 .anyRequest()
-                .permitAll() // <-- Všechny stránky povolíme (pravidla budeme definovat přímo v kontroleru)
+                .permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/account/login")
                 .loginProcessingUrl("/account/login")
-                .defaultSuccessUrl("/projects/recordsOfInsuredPeople", true)
+                .defaultSuccessUrl("/home/recordsOfInsuredPeople", true)
                 .usernameParameter("email")
                 .permitAll()
                 .and()
@@ -37,6 +42,10 @@ public class ApplicationSecurityConfiguration {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
