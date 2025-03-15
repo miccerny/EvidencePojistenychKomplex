@@ -43,8 +43,9 @@ body > header {
     flex-direction: column;
     justify-content: center;
     background: url('../images/logo.png') no-repeat;
-    background-size: 40px 40px;
+    background-size: contain;
 }
+
 
 #logo > * {
     margin: 0 0 0 50px;

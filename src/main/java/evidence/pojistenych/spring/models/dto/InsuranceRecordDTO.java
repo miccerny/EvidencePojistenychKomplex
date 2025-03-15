@@ -21,13 +21,13 @@ public class InsuranceRecordDTO {
     @NotBlank(message = "Vyplňte předmět")
     private String subjectOfInsurance;
 
-    @NotNull
+    @NotNull(message = "Nesmí být prázdné")
     @FutureOrPresent(message = "Musí být datum v budoucnosti nebo dnešní")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate dateFrom;
 
 
-    @NotNull
+    @NotNull(message = "Nesmí být prázdné")
     @Future(message = "Musí být datum v budoucnosti")
     @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate dateTo;
