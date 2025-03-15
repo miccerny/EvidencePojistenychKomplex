@@ -8,7 +8,11 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
-
+    /**
+     *
+     * @param email
+     * @return
+     */
     Optional<UserEntity> findByEmail(String email);
 
 }

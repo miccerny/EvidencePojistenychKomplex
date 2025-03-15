@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     /**
-     *
-     * @return
+     * metoda GET k získání dat pro formulář ke konraktování
+     * @return - vrací HTML formulář ke kontaktování
      */
     @GetMapping("/contact")
     public String renderContact(){

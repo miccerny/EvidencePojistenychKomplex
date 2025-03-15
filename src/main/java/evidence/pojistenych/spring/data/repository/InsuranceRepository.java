@@ -9,7 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface InsuranceRepository extends CrudRepository<InsuranceEntity, Long> {
+    /**
+     *
+     * @param insuredPerson
+     * @param pageable
+     * @return
+     */
     Page<InsuranceEntity> findByInsuredPerson(InsuredPersonEntity insuredPerson, Pageable pageable);
 }

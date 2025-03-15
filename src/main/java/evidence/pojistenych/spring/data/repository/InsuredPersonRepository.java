@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InsuredPersonRepository extends JpaRepository<InsuredPersonEntity, Long> {
-
+    /**
+     *
+     * @param id
+     * @return
+     */
     InsuredPersonEntity getById (Long id);
 }

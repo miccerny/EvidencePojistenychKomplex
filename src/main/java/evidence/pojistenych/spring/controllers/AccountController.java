@@ -47,8 +47,8 @@ public class AccountController {
             bindingResult.rejectValue("email", "error", "Email je již používán.");
             return "/pages/account/register";
         } catch (PasswordsDoNotEqualException e) {
-            bindingResult.rejectValue("password", "error", "Hesla se nerovnají.");
-            bindingResult.rejectValue("confirmPassword", "error", "Hesla se nerovnají.");
+            bindingResult.rejectValue("password", "error", "Hesla se neshodují.");
+            bindingResult.rejectValue("confirmPassword", "error", "Hesla se neshodují.");
             return "/pages/account/register";
         }
 
