@@ -27,7 +27,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     InsuredPersonRepository insuredPersonRepository;
 
     /**
-     *
+     * Servisní metoda pro vytvoření nového pojištěnce
      * @param insuredPersonDTO
      */
     public void create(InsuredPersonDTO insuredPersonDTO) {
@@ -36,8 +36,8 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     }
 
     /**
-     *
-     * @return
+     *Metoda pro vyhledání všech pojištěnců v datbáti
+     * @return - vrátí všechny pojištěnce
      */
 
     public List<InsuredPersonDTO> getAll() {
@@ -54,9 +54,9 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * Metoda pro vyhledání konkrétního pojištěnce v databázi
+     * @param id - identifikace pojištěnce v databázi (entita)
+     * @return - vrátí konkrétního pojištěnce
      */
     public InsuredPersonDTO getById(Long id) {
         return insuredPersonRepository.findById(id)
@@ -65,7 +65,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     }
 
     /**
-     *
+     * Servisní Metoda pro úpravu pojištěnce v databázi
      * @param insuredPersonDTO
      */
     @Override
@@ -77,7 +77,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     }
 
     /**
-     *
+     * Servisní metoda pro smazání konkrétního pojištěnce z databáze
      * @param id
      */
     @Override
@@ -86,7 +86,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
     }
 
     /**
-     *
+     * Metoda, která vyvolá chybu v případě nenaleezení pojištěnce
      * @param id
      * @return
      */

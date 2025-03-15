@@ -24,7 +24,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+
+/**
+ * Kontroler pro vyhledání a předání parametrů konkrétního pojištění View straně
+ */
 
 @Controller
 @RequestMapping("/home")
@@ -46,6 +49,15 @@ public class InsuranceController {
     @Autowired
     private InsuranceRepository insuranceRepository;
 
+
+    /**
+     * Metoda GET pro získání parametrů všech pojištění konkrétního pojištěnce
+     * @param id
+     * @param model
+     * @param page
+     * @param size
+     * @return - vrací vzor HTML se všemi pojištěními a konkrétní pojištěncem
+     */
     @GetMapping("insuredPersonDetail/{id}")
     public String getInsuredPersonDetail(@PathVariable Long id, Model model,
                                          @RequestParam(defaultValue = "0") int page,
@@ -67,7 +79,7 @@ public class InsuranceController {
         model.addAttribute("totalPages", insuranceRecords.getTotalPages());
         model.addAttribute("totalItems", insuranceRecords.getTotalElements());
 
-        return "pages/home/insuredPersonDetail"; // Odkaz na šablonu Thymeleaf
+        return "pages/home/insuredPersonDetail";
     }
 
     @Secured("ROLE_ADMIN")
@@ -86,6 +98,14 @@ public class InsuranceController {
         return "pages/home/createRecord";
     }
 
+    /**
+     * metoda POST pro předáí nových parametrů pojištění modelu a service do databáze
+     * @param insuredPersonId
+     * @param insuranceRecord
+     * @param result
+     * @param redirectAttributes
+     * @return - vrací HTML vzor se všemi pojištěními a novým pojištěním
+     */
     @Secured("ROLE_ADMIN")
     @PostMapping("/createRecord/{insuredPersonId}")
     public String createRecord(@PathVariable Long insuredPersonId,
@@ -113,6 +133,12 @@ public class InsuranceController {
 
     }
 
+    /**
+     * metoda GET pro získání parametrů existujícho pojištění z databáze k úpravě
+     * @param insuranceId
+     * @param model
+     * @return - vrací HTML vzor přes Thymeleaf s konkrétními parametry k úpravě
+     */
     @Secured("ROLE_ADMIN")
     @GetMapping("/editRecord/{insuranceId}")
     public String renderEditForm(@PathVariable Long insuranceId,
@@ -129,6 +155,15 @@ public class InsuranceController {
         return "pages/home/editRecord";
     }
 
+    /**
+     * metoda POST pro odeslání parametrů existujícho pojištění do databáze s upravenými parametry
+     * @param insuranceId
+     * @param insuranceRecordDTO
+     * @param result
+     * @param redirectAttributes
+     * @param model
+     * @return vrací HTML vzor se všmi pojištěními
+     */
     @Secured("ROLE_ADMIN")
     @PostMapping("editRecord/{insuranceId}")
     public String editInsurance(@PathVariable long insuranceId,
@@ -149,6 +184,12 @@ public class InsuranceController {
         return "redirect:/home/insuredPersonDetail/" + insuredPersonId;
     }
 
+    /**
+     * metoda GET pro získání parametrů pojištěni a následnému odstranění
+     * @param insuranceId
+     * @param redirectAttributes
+     * @return - vrací HTML vzor se všemi pojištěnci
+     */
     @Secured("ROLE_ADMIN")
     @GetMapping("delete/{insuranceId}")
     public  String deleteInsurance(@PathVariable long insuranceId,
