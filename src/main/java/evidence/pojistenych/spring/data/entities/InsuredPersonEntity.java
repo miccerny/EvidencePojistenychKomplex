@@ -37,7 +37,7 @@ public class InsuredPersonEntity {
     private int zipCode;
 
 
-    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.MERGE)
     private List<InsuranceEntity> insuranceEntities;
 
     public List<InsuranceEntity> getInsuranceEntities() {

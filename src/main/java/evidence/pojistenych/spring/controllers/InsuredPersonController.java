@@ -118,7 +118,7 @@ public class InsuredPersonController {
         insuredPersonService.edit(insuredPersonDTO);
 
         redirectAttributes.addFlashAttribute("success", "Pojištěnec upraven.");
-        return "redirect:/projects/recordsOfInsuredPeople";
+        return "redirect:/home/recordsOfInsuredPeople";
     }
 
     /**
