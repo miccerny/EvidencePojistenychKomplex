@@ -15,7 +15,7 @@
         <h1>Nové pojištění pro <span th:text="${insuredPerson.firstName + ' ' + insuredPerson.lastName}"></span></h1>
       </header>
       <section>
-        <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">
+        <input type="hidden" name="insuredPersonId" th:value="${insuredPerson}">
 
         <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2" method="post"
           th:action="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">

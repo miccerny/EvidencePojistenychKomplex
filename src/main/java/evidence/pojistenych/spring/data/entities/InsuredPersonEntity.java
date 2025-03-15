@@ -3,6 +3,7 @@ package evidence.pojistenych.spring.data.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class InsuredPersonEntity {
     private int zipCode;
 
 
-    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "insuredPerson", cascade = CascadeType.MERGE)
     private List<InsuranceEntity> insuranceEntities;
 
     public List<InsuranceEntity> getInsuranceEntities() {
