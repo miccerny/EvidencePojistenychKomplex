@@ -12,9 +12,9 @@
     <article>
         <div id="centrovac">
 
-            <input type="hidden" name="insuredPersonId" value="${insuredPerson.id}">
+            <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">
             <p sec:authorize="hasRole('ADMIN')">
-                <a class="zaznam-tlacitko" th:href="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson})}">Vytvořit nový záznam</a></p>
+                <a class="zaznam-tlacitko" th:href="@{/home/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">Vytvořit nový záznam</a></p>
 
             <header>
                 <h1>Detail pojištěnce včetně pojištění</h1>
