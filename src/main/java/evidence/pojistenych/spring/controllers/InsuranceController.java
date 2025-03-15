@@ -111,21 +111,30 @@ public class InsuranceController {
     public String createRecord(@PathVariable Long insuredPersonId,
             @Valid @ModelAttribute InsuranceRecordDTO insuranceRecord,
                                BindingResult result,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               Model model) {
 
-        if (result.hasErrors())
-            return  "pages/home/insuredPersonDetail";
-
-
-            InsuredPersonEntity insuredPerson = insuredPersonRepository.findById(insuredPersonId)
+        InsuredPersonEntity insuredPerson = insuredPersonRepository.findById(insuredPersonId)
                 .orElseThrow(() -> new RuntimeException("Pojištěnec nenalezen!"));
+        model.addAttribute("insuredPerson", insuredPerson);
 
+        if(result.hasErrors()){
+            model.addAttribute("insuranceRecordDTO", insuranceRecord);
+            System.out.println("Formulář obsahuje chyby: " + result.getAllErrors());
+
+            return "pages/home/createRecord";
+        }
+
+        try{
             InsuranceEntity insuranceEntity = insuranceMapper.toEntity(insuranceRecord);
             insuranceEntity.setInsuredPerson(insuredPerson);
-
             insuranceRepository.save(insuranceEntity);
 
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Chyba při vytváření pojištěnce");
 
+            return "redirect:/home/createRecord/" + insuredPersonId;
+        }
 
         redirectAttributes.addFlashAttribute("success", "Pojištění vytvořeno");
 
