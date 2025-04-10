@@ -14,7 +14,7 @@
 
 ## Ukázky aplikace
 ### Evidence Pojištěných bez přihlášeného uživatele(anonymní)
-![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/28d9dd1e0f4fdcae69fa4042a41587583891b9f0/screenshot/EvidencePojistenych.png)
+![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/5bfe89f5ad3c26683782a22e4209f664308a7174/screenshot/EvidencePojistenych.png)
 
 ### Evidence pojištění konkrétního pojištěnce bez přihlášení uživatele (anonymní)
 
