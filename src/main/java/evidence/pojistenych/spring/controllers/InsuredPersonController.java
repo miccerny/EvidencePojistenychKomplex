@@ -2,7 +2,6 @@ package evidence.pojistenych.spring.controllers;
 
 
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
-import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
 import evidence.pojistenych.spring.models.services.InsuredPersonService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
