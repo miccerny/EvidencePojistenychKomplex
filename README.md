@@ -23,6 +23,9 @@
 ### Evidence pojištěnců s přihlášením jako administrátor
 ![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/master/screenshot/Sn%C3%ADmek%20obrazovky%20z%202025-03-15%2013-01-44.png)
 
+### Editace pojištěného s přihlášením jako administrátor
 ![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/master/screenshot/Sn%C3%ADmek%20obrazovky%20z%202025-03-15%2013-01-55.png)
+
+### Zobrazení detailu pojištění s přihlášením jako administrátor
 ![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/master/screenshot/Sn%C3%ADmek%20obrazovky%20z%202025-03-15%2013-02-06.png)
 
