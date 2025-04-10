@@ -31,28 +31,6 @@
 4. **mvn spring-boot:run** nebo spusť  **InsuranceRecordsApplication.java** jako Spring Boot app
 5. Otevři v prohlížeči **http://localhost:8080**
 
-## Struktura projektu
-src/
-├── main/
-│   ├── java/
-│   │   └── evidence.pojistenych.spring/
-|   |       ├── configuration/   ← Konfigurace příštupu
-│   │       ├── controllers/     ← Webové kontrolery
-|   |       ├── data/
-|   |       |   ├── entities/    ← Entity 
-|   |       |   └── repository/  ← Rozhraní pro komunikaci s DB
-│   │       └── model/           ← Datové třídy
-|   |           └── dto/         ← Vlastnosti pro klienta
-|   |               └── mappers/ 
-│   │       ├── exception/       ← Chybové vyjímky
-│   │       ├── service/         ← Logika aplikace
-│   │       └── EvidencePojisteniApplication.java
-│   └── resources/
-│       ├── static/              ← CSS, JS, Bootstrap
-│       ├── templates/           ← Thymeleaf HTML šablony
-│       └── application.properties
-
-
 ## Ukázky aplikace
 ### Evidence Pojištěných bez přihlášeného uživatele(anonymní)
 ![Popis obrázku](https://github.com/miccerny/EvidencePojistenychKomplex/blob/5bfe89f5ad3c26683782a22e4209f664308a7174/screenshot/EvidencePojistenych.png)
