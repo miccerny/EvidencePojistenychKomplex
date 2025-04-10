@@ -16,7 +16,7 @@
       <section>
 
         <form th:object="${insuredPersonDTO}" class="d-flex flex-column gap-2" method="post"
-          th:action="@{/home/createInsuredPerson}">
+          th:action="@{/createInsuredPerson}">
           <div class="form-group">
             <label for="firstName" class="control-label">Jméno</label></br>
             <input id="firstName" th:field="*{firstName}" placeholder="např. Jan">
@@ -60,7 +60,7 @@
         </form>
 
         <p>
-          <a class="zaznam-tlacitko" th:href="@{/home/recordsOfInsuredPeople}">Zpět na Evidenci</a>
+          <a class="zaznam-tlacitko" th:href="@{/}">Zpět na Evidenci</a>
         </p>
       </section>
     </div>

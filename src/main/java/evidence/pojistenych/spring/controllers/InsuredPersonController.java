@@ -18,7 +18,7 @@ import java.util.List;
  * Kontroler pro vyhledání a předání pojištěnců View stráně
  */
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 public class InsuredPersonController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class InsuredPersonController {
      * @param model
      * @return - vrací HTML se zobrazenými pojištěnci
      */
-    @GetMapping("/recordsOfInsuredPeople")
+    @GetMapping("/")
     public String renderPojistenci(Model model){
 
         List<InsuredPersonDTO> insuredPersonDTO = insuredPersonService.getAll();
