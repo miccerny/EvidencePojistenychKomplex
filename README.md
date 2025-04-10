@@ -6,9 +6,9 @@
 - Zobrazení detailu pojištění
 - Zobrazení seznamu pojištěných
 - Odstranění pojištěného včetně všech jeho pojištění
-- Odstranění pojištění
-- Editace pojištěného
-- Editace pojištění pojištěného
+- Odstranění pojištění (pouze s přihlášením administrátor)
+- Editace pojištěného (pouze s přihlášením administrátor)
+- Editace pojištění pojištěného (pouze s přihlášením administrátor)
 - Podporuje rozlišení (uživatel, administrátor)
 - Entity jsou uloženém v SQL databázi
 
