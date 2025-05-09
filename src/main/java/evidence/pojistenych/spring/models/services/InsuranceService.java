@@ -1,8 +1,10 @@
 package evidence.pojistenych.spring.models.services;
 
+import evidence.pojistenych.spring.models.CreateRecordFormData;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
+import evidence.pojistenych.spring.models.dto.PageDTO;
+import org.springframework.validation.BindingResult;
 
-import java.util.List;
 
 public interface InsuranceService {
 
@@ -10,20 +12,25 @@ public interface InsuranceService {
      *
      * @param insuranceRecordDTO
      */
-    void create(InsuranceRecordDTO insuranceRecordDTO);
+    CreateRecordFormData prepareCreateRecordForm (Long insuredPersonId);
 
+    void  createInsuranceRecord(InsuranceRecordDTO insuranceRecordDTO, Long insuredPersonId, BindingResult bindingResult);
     /**
      *
      * @param insuranceId
      * @return
      */
-    InsuranceRecordDTO getById(Long insuranceId);
+
+
+    PageDTO getInsuredPersonDetail(Long insuranceId, int page, int size);
 
     /**
      *
      * @param insuranceRecordDTO
      */
     void edit(InsuranceRecordDTO insuranceRecordDTO);
+
+    InsuranceRecordDTO getById(Long insuranceId);
 
     /**
      *

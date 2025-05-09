@@ -12,4 +12,6 @@ public interface InsuredPersonRepository extends JpaRepository<InsuredPersonEnti
      * @return
      */
     InsuredPersonEntity getById (Long id);
+
+    boolean existsByEmail(String email);
 }

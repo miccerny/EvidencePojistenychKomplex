@@ -3,8 +3,10 @@ package evidence.pojistenych.spring.controllers;
 
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.services.InsuredPersonService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,9 +36,6 @@ public class InsuredPersonController {
 
         List<InsuredPersonDTO> insuredPersonDTO = insuredPersonService.getAll();
         model.addAttribute("insuredPersonDTO", insuredPersonDTO);
-        if (insuredPersonService.getAll().isEmpty())
-            model.addAttribute("noInsuredPerson", "Žádný pojištěnec k dispozici");
-
 
         return "pages/home/recordsOfInsuredPeople";
     }
@@ -48,8 +47,6 @@ public class InsuredPersonController {
      */
     @GetMapping("createInsuredPerson")
     public String renderCreateInsured(@ModelAttribute InsuredPersonDTO insuredPersonDTO){
-
-
         return "pages/home/createInsuredPerson";
     }
 
@@ -66,26 +63,22 @@ public class InsuredPersonController {
                                       RedirectAttributes redirectAttributes){
 
         if(bindingResult.hasErrors()){
-            System.out.println("Formulář obsahuje chyby: " + bindingResult.getAllErrors());
             return "pages/home/createInsuredPerson";
         }
 
         try {
             insuredPersonService.create(insuredPersonDTO);
             redirectAttributes.addFlashAttribute("success", "Pojištěnec uspěšně vytvořen");
-        }catch (Exception e){
-            System.out.println("❌ Chyba při ukládání do databáze: " + e.getMessage());
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Chyba při vytváření pojištěnce");
+        } catch (DataIntegrityViolationException ex) {
             bindingResult.rejectValue("email", "error", "Email je již registrován");
-            return "pages/home/createInsuredPerson";
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("error", "Neočekávaná chyba při vytváření pojištěnce.");
         }
-
         System.out.println("Ukládám pojištěného s emailem: " + insuredPersonDTO.getEmail());
 
         redirectAttributes.addFlashAttribute("success", "Pojištěnec vytvořen.");
 
-        return "redirect:/home/createInsuredPerson";
+        return "redirect:/createInsuredPerson";
     }
 
     /**
@@ -109,15 +102,22 @@ public class InsuredPersonController {
      * @return - vrátí HTML vzor formuláře o se všemi pojištěnci z databáze
      */
     @PostMapping("/editInsuredPeople/{id}")
-    public String updateInsuredPerson(@ModelAttribute @PathVariable Long id,
-                                      InsuredPersonDTO insuredPersonDTO,
+    public String updateInsuredPerson( @PathVariable Long id,
+                                       @ModelAttribute InsuredPersonDTO insuredPersonDTO,
                                       RedirectAttributes redirectAttributes) {
 
-        insuredPersonDTO.setId(id);
-        insuredPersonService.edit(insuredPersonDTO);
+        try{
+            insuredPersonDTO.setId(id);
+            insuredPersonService.edit(insuredPersonDTO);
+            redirectAttributes.addFlashAttribute("success", "Pojištěnec upraven.");
+        }catch (EntityNotFoundException e){
+            redirectAttributes.addFlashAttribute("error", "Pojištěnec s ID " + id + " nebyl nalezen.");
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("error", "Chyba při úpravě pojištěnce.");
+        }
 
         redirectAttributes.addFlashAttribute("success", "Pojištěnec upraven.");
-        return "redirect:/home/recordsOfInsuredPeople";
+        return "redirect:/";
     }
 
     /**
@@ -134,7 +134,7 @@ public class InsuredPersonController {
         System.out.println("Pojištěný smazán, přesměrování na seznam.");
 
         redirectAttributes.addFlashAttribute("success", "Pojištěnec smazán");
-        return "redirect:/home/recordsOfInsuredPeople";
+        return "redirect:/recordsOfInsuredPeople";
     }
 
 
@@ -149,7 +149,7 @@ public class InsuredPersonController {
 
         e.printStackTrace();
         redirectAttributes.addFlashAttribute("error", "Pojištěnec nenalezen.");
-        return "redirect:/home/recordsOfInsuredPeople";
+        return "redirect:/recordsOfInsuredPeople";
     }
 
 

@@ -1,7 +1,6 @@
 package evidence.pojistenych.spring.models.dto;
 
 import jakarta.validation.constraints.*;
-import org.checkerframework.checker.units.qual.min;
 
 public class UserDTO {
 

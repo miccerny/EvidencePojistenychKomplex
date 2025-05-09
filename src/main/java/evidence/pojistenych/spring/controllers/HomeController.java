@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     /**
-     * metoda GET k získání dat pro formulář ke konraktování
-     * @return - vrací HTML formulář ke kontaktování
+     * Zpracuje GET požadavek na adresu "/contact" a vrátí název šablony pro stránku kontaktu.
+     * Tato metoda je zodpovědná za vykreslení stránky kontaktu ve webové aplikaci.
+     *
+     * @return Název šablony pro stránku kontaktu (v tomto případě "pages/home/contact")
      */
     @GetMapping("/contact")
     public String renderContact(){

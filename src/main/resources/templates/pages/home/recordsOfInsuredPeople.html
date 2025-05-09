@@ -17,65 +17,56 @@
             <section>
 
                 <p sec:authorize="hasRole('ADMIN')"><a class="zaznam-tlacitko"
-                        th:href="@{/home/createInsuredPerson}">Vytvořit nový záznam pojištěného</a></p>
+                        th:href="@{/createInsuredPerson}">Vytvořit nový záznam pojištěného</a></p>
 
                 <div th:if="${noInsuredPerson}">
                     <p th:text="${noInsuredPerson}"></p>
                 </div>
 
-                <ul class="list-group" id="zaznam">
-                    <li th:each="record: ${insuredPersonDTO}" class="list-group-item">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-fixe">
-                                <thead>
-                                    <tr>
+                <div class="container mt-4">
+                    <div class="row" id="zaznam">
+                        <li th:each="record: ${insuredPersonDTO}" class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-body">
 
-                                        <a th:href="@{/home/insuredPersonDetail/{id}(id=${record.id})}"
+                                    <h5 class="card-title">
+                                        <a th:href="@{/insuredPersonDetail/{id}(id=${record.id})}"
                                             th:text="${record.firstName + ' ' + record.lastName}"></a>
-
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td class="text-nowrap">
-                                            <p><strong>Email:</strong> </p>
-                                            <p><span th:text="${record.email}"></span></p>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p><strong>Telefonní číslo:</strong> </p>
-                                            <p><span
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 col-md-4 mb-1">
+                                            <p><strong>Email:</strong> <span th:text="${record.email}"></span></p>
+                                        </div>
+                    
+                                        <div class="col-12 col-sm-6 col-md-4 mb-1">
+                                            <p><strong>Telefonní číslo:</strong> <span
                                                     th:text="${record.phoneNumber.startsWith('+') ? record.phoneNumber : '+420' + record.phoneNumber}"></span>
                                             </p>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p><strong>Ulice:</strong></p>
-                                            <p><span th:text="${record.street}"></span></p>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p><strong>Město:</strong> </p>
-                                            <p><span th:text="${record.city}"></span></p>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p><strong>PSČ:</strong> </p>
-                                            <p><span th:text="${record.zipCode}"></span></p>
-                                        </td>
-                                        <td class="text-nowrap">
-                                            <p sec:authorize="hasRole('ADMIN')"><a
-                                                    th:href="@{/home/editInsuredPeople/{id}(id=${record.id})}">Editovat</a>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-4 mb-1">
+                                            <p><strong>Ulice:</strong> <span th:text="${record.street}"></span></p>
+                                        </di>
+                                        <div class="col-12 col-sm-6 col-md-4 mb-1">
+                                            <p><strong>Město:</strong> <span th:text="${record.city}"></span></p>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-4 mb-1">
+                                            <p><strong>PSČ:</strong> <span th:text="${record.zipCode}"></span></p>
+                                        </div>
+                                        <div sec:authorize="hasRole('ADMIN')" class="mt-3">
+                                            <p>
+                                                <a th:href="@{/editInsuredPeople/{id}(id=${record.id})}"
+                                                    class="btn btn-warning btn-sm">Editovat</a>
+                                                <a th:href="@{/deleteInsured/{id}(id=${record.id})}"
+                                                    onclick="return confirm('Opravdu chcete smazat tohoto pojištěného?');"
+                                                    class="btn btn-danger btn-sm">Odstranit</a>
                                             </p>
-                                            <p sec:authorize="hasRole('ADMIN')"><a
-                                                    th:href="@{/home/deleteInsured/{id}(id=${record.id})}"
-                                                    onclick="return confirm('Opravdu chcete smazat tohoto pojištěného?');">Odstranit</a>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </li>
-                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
 
             </section>
         </div>
