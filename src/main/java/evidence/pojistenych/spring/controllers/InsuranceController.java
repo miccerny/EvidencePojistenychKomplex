@@ -6,7 +6,7 @@ import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.CreateRecordFormData;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
-import evidence.pojistenych.spring.models.dto.PageDTO;
+import evidence.pojistenych.spring.models.dto.PagedInsuranceDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.services.InsuranceService;
@@ -61,12 +61,12 @@ public class InsuranceController {
                                          @RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "3") int size) {
 
-        PageDTO pageDTO = insuranceService.getInsuredPersonDetail(id, page, size);
-        model.addAttribute("insuredPerson", pageDTO.getInsuredPerson());
-        model.addAttribute("insurances", pageDTO.getInsurances());
-        model.addAttribute("currentPage", pageDTO.getCurrentPage());
-        model.addAttribute("totalPages", pageDTO.getTotalPages());
-        model.addAttribute("totalItems", pageDTO.getTotalItems());
+        PagedInsuranceDTO pagedInsuranceDTO = insuranceService.getInsuredPersonDetail(id, page, size);
+        model.addAttribute("insuredPerson", pagedInsuranceDTO.getInsuredPerson());
+        model.addAttribute("insurances", pagedInsuranceDTO.getInsurances());
+        model.addAttribute("currentPage", pagedInsuranceDTO.getCurrentPage());
+        model.addAttribute("totalPages", pagedInsuranceDTO.getTotalPages());
+        model.addAttribute("totalItems", pagedInsuranceDTO.getTotalItems());
 
         return "pages/home/insuredPersonDetail";
     }

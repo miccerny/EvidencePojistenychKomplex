@@ -7,7 +7,7 @@ import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.CreateRecordFormData;
 import evidence.pojistenych.spring.models.dto.InsuranceRecordDTO;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
-import evidence.pojistenych.spring.models.dto.PageDTO;
+import evidence.pojistenych.spring.models.dto.PagedInsuranceDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.exceptions.InsuredPersonNotFoundException;
@@ -18,7 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 
@@ -88,14 +87,14 @@ public class InsuranceServiceImpl implements InsuranceService {
      * @return PageDTO obsahující pojištěnce, seznam pojištění a informace o stránkování
      */
     @Override
-    public PageDTO getInsuredPersonDetail(Long insuranceId, int page, int size){
+    public PagedInsuranceDTO getInsuredPersonDetail(Long insuranceId, int page, int size){
         InsuredPersonEntity insuredPersonEntity = insuredPersonRepository.findById(insuranceId)
                 .orElseThrow(()-> new RuntimeException("Pojištěnec nenalezen"));
 
         Pageable pageable = PageRequest.of(page, size);
         Page<InsuranceEntity> insuranceEntityPage = insuranceRepository.findByInsuredPerson(insuredPersonEntity, pageable);
 
-        return new PageDTO(
+        return new PagedInsuranceDTO(
                 insuredPersonEntity,
                 insuranceEntityPage.getContent(),
                 page,
@@ -173,7 +172,7 @@ public class InsuranceServiceImpl implements InsuranceService {
      */
     private void validateCreateInputs(InsuranceRecordDTO dto, Long personId, BindingResult bindingResult) {
         if (dto == null || personId == null) {
-            bindingResult.rejectValue("insuranceRecordDTO", "error", "Pojištění nebo pojištěnec nejsou validní");
+            bindingResult.rejectValue("insuranceRecordDTO", "error", "Insurance or Insured person are not valit");
         }
     }
 
