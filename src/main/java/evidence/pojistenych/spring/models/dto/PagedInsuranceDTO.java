@@ -5,14 +5,14 @@ import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
 
 import java.util.List;
 
-public class PageDTO {
+public class PagedInsuranceDTO {
     private InsuredPersonEntity insuredPerson;
     private List<InsuranceEntity> insurances;
     private int currentPage;
     private int totalPages;
     private long totalItems;
 
-    public PageDTO(InsuredPersonEntity insuredPerson, List<InsuranceEntity> insurances, int currentPage, int totalPages, long totalItems) {
+    public PagedInsuranceDTO(InsuredPersonEntity insuredPerson, List<InsuranceEntity> insurances, int currentPage, int totalPages, long totalItems) {
         this.insuredPerson = insuredPerson;
         this.insurances = insurances;
         this.currentPage = currentPage;
