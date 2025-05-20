@@ -12,7 +12,7 @@
   <article>
     <div class=>
       <header>
-        <h1>Nové pojištění pro <span th:text="${insuredPerson.firstName + ' ' + insuredPerson.lastName}"></span></h1>
+        <h1>Nové pojištění pro <span th:text="${insuredPerson != null ? insuredPerson.firstName + ' ' + insuredPerson.lastName : 'Neznámý pojištěnec'}"></span></h1>
       </header>
       <section>
         <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">

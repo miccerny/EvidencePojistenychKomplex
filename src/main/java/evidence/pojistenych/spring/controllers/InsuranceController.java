@@ -1,6 +1,9 @@
 package evidence.pojistenych.spring.controllers;
 
 
+import evidence.pojistenych.spring.data.InsuranceType;
+import evidence.pojistenych.spring.data.entities.InsuranceEntity;
+import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
 import evidence.pojistenych.spring.data.repository.InsuranceRepository;
 import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.CreateRecordFormData;
@@ -99,18 +102,23 @@ public class InsuranceController {
                                RedirectAttributes redirectAttributes,
                                Model model) {
 
+        InsuredPersonEntity insuredPerson = insuredPersonRepository.findById(insuredPersonId)
+                .orElseThrow(() -> new RuntimeException("Pojištěnec nenalezen!"));
+        model.addAttribute("insuredPerson", insuredPerson);
+
         if(result.hasErrors()){
+            model.addAttribute("insuranceOptions", InsuranceType.values());
             model.addAttribute("insuranceRecordDTO", insuranceRecord);
+            System.out.println("Formulář obsahuje chyby: " + result.getAllErrors());
             return "pages/home/createRecord";
         }
 
         try{
-           insuranceService.createInsuranceRecord(insuranceRecord, insuredPersonId, result);
+            InsuranceEntity insuranceEntity = insuranceMapper.toEntity(insuranceRecord);
+            insuranceEntity.setInsuredPerson(insuredPerson);
+            insuranceRepository.save(insuranceEntity);
 
-           if(result.hasErrors()){
-               model.addAttribute("insuranceRecordDTO", insuranceRecord);
-               return "pages/home/createRecord";
-           }
+
         }catch (Exception e){
             redirectAttributes.addFlashAttribute("error", "Chyba při vytváření pojištěnce");
             return "redirect:/home/createRecord/" + insuredPersonId;
