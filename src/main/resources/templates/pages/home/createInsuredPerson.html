@@ -14,7 +14,6 @@
         <h1>Nový Pojištěnec</h1>
       </header>
       <section>
-
         <form th:object="${insuredPersonDTO}" class="d-flex flex-column gap-2" method="post"
           th:action="@{/createInsuredPerson}">
           <div class="form-group">
@@ -56,9 +55,7 @@
           <div class="form-group">
             <button type="submit" class="zaznam-tlacitko">Uložit</button>
           </div>
-
         </form>
-
         <p>
           <a class="zaznam-tlacitko" th:href="@{/}">Zpět na Evidenci</a>
         </p>

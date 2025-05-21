@@ -129,7 +129,6 @@ public class InsuredPersonController {
     @GetMapping("/deleteInsured/{id}")
     public String deleteInsuredPerson(@PathVariable Long id, RedirectAttributes redirectAttributes){
 
-        System.out.println("Mazání pojištěného s ID: " + id);
         insuredPersonService.delete(id);
         System.out.println("Pojištěný smazán, přesměrování na seznam.");
 

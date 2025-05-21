@@ -8,27 +8,23 @@
   <div class="py-2 flash-message message-success" th:text="${success}" th:if="${success}"></div>
   <div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
 
-
   <article>
     <div class=>
       <header>
-        <h1>Nové pojištění pro <span th:text="${insuredPerson != null ? insuredPerson.firstName + ' ' + insuredPerson.lastName : 'Neznámý pojištěnec'}"></span></h1>
+        <h1>Nové pojištění pro <span
+            th:text="${insuredPerson != null ? insuredPerson.firstName + ' ' + insuredPerson.lastName : 'Neznámý pojištěnec'}"></span>
+        </h1>
       </header>
       <section>
         <input type="hidden" name="insuredPersonId" th:value="${insuredPerson.id}">
-
         <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2" method="post"
           th:action="@{/createRecord/{insuredPersonId}(insuredPersonId=${insuredPerson.id})}">
           <div class="form-group">
             <label for="insurance" class="control-label">Vyberte typ Pojištění</label></br>
-            <select id="insurance" th:field="*{insurance}">
-              <option value="Domacnosti">Domácnosti</option>
-              <option value="Povinne Ruceni">Povinné ručení</option>
-              <option value="Havarjní">Havarijní pojištění</option>
-              <option value="Odpovednosti">Odpovědnosti</option>
-              <option value="Životní">Životní</option>
-              <option value="Úrazové">Úrazové</option>
-              <option value="Majetku">Majetku</option>
+            <select id="insurance" th:field="*{insurance}" >
+              <option th:each="option : ${insuranceOptions}"
+                      th:value="${option}"
+                      th:text="${option.displayName}"></option>
             </select>
             <small class="text-danger" th:errors="*{insurance}"></small>
           </div>
@@ -55,9 +51,7 @@
           <div class="form-group">
             <button type="submit" class="zaznam-tlacitko">Uložit</button>
           </div>
-
         </form>
-
         <p>
           <a class="zaznam-tlacitko" th:href="@{/}">Zpět na Evidenci</a>
         </p>

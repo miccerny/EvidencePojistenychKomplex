@@ -80,14 +80,16 @@ nav ul li {
     padding: 0 25px;
     margin: 0 5px;
     font-size: 1em;
-    line-height: 4.3em;
+    line-height: 1.3em;
 }
 
 nav ul a {
     color: white;
-    padding: 8px 0;
     text-decoration: none;
     text-transform: uppercase;
+    display: inline-block; /* zajistí, že border se drží pod textem */
+    padding: 4px 0; /* mírné svislé mezery */
+    line-height: 1.2em;
 }
 
 nav ul a:hover,
@@ -246,3 +248,29 @@ Flash messages
     background: #d41400;
 }
     
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #00386B;
+    width: 100%;
+    padding: 10px 20px;
+  }
+
+  nav ul li {
+    padding: 10px 0;
+    margin: 0;
+    line-height: normal;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding-bottom: 10px;
+  }
+
+  #logo {
+    margin: 10px 20px;
+  }
+}

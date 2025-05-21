@@ -18,7 +18,7 @@
 
       <section>
         <form th:object="${insuranceRecordDTO}" class="d-flex flex-column gap-2" method="post"
-          th:action="@{/home/editRecord/{insuranceId}(insuranceId=${insuranceRecordDTO.insuranceId})}">
+          th:action="@{/editRecord/{insuranceId}(insuranceId=${insuranceRecordDTO.insuranceId})}">
           <div class="form-group">
             <label for="insurance" class="control-label">Pojištění</label></br>
             <select id="insurance" th:field="*{insurance}">

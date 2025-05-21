@@ -11,8 +11,6 @@ import evidence.pojistenych.spring.models.dto.PagedInsuranceDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuranceMapper;
 import evidence.pojistenych.spring.models.exceptions.InsuranceNotFoundException;
 import evidence.pojistenych.spring.models.exceptions.InsuredPersonNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,8 +21,6 @@ import org.springframework.validation.BindingResult;
 
 @Service
 public class InsuranceServiceImpl implements InsuranceService {
-
-    private static final Logger log = LoggerFactory.getLogger(InsuranceServiceImpl.class);
 
     @Autowired
     private InsuranceRepository insuranceRepository;
@@ -142,7 +138,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     public InsuranceRecordDTO getById(Long insuranceId) {
         // Zavoláme repository, abychom získali pojištění podle ID
         InsuranceEntity fetchedInsurance = insuranceRepository.findById(insuranceId)
-                .orElseThrow(() -> new RuntimeException("Pojištění s ID " + insuranceId + " nenalezeno"));
+                .orElseThrow(() -> new InsuranceNotFoundException(insuranceId));
 
         // Vrátíme DTO verzi pojištění, kterou použijeme ve view
         return insuranceMapper.toDTO(fetchedInsurance);
@@ -157,8 +153,7 @@ public class InsuranceServiceImpl implements InsuranceService {
      */
     private InsuranceEntity getInsuranceOrThrow(long insuranceId){
         return insuranceRepository
-                .findById(insuranceId)
-                .orElseThrow(InsuranceNotFoundException::new);
+                .findById(insuranceId).orElseThrow(() -> new InsuranceNotFoundException(insuranceId));
     }
 
     /**
@@ -171,8 +166,8 @@ public class InsuranceServiceImpl implements InsuranceService {
      * @param bindingResult Výsledek validačních kontrol, kde se ukládají chyby
      */
     private void validateCreateInputs(InsuranceRecordDTO dto, Long personId, BindingResult bindingResult) {
-        if (dto == null || personId == null) {
-            bindingResult.rejectValue("insuranceRecordDTO", "error", "Insurance or Insured person are not valit");
+        if (dto == null) {
+            bindingResult.rejectValue("insuranceRecordDTO", "error", "Insurance are not valid");
         }
     }
 
