@@ -1,5 +1,7 @@
 # Webová aplikace pro evidenci pojištěnců a jejich pojištění
 
+> Aktuální verze projektu je dostupná ve větvi `refactoring`, kde proběhly poslední úpravy a čistší struktura kódu.
+
 ## Použité technologie
 - **Java 19** - hlavní jazyk projektu
 - **MySQL** - relační databáze pro ukládání dat
