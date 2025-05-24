@@ -4,15 +4,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller pro hlavní stránku aplikace.
+ * *
+ * Obsahuje metody, které obsluhují požadavky na domovskou stránku.
+ * URL základní cesta je nastavena na "/home".
+ */
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 
     /**
-     * Zpracuje GET požadavek na adresu "/contact" a vrátí název šablony pro stránku kontaktu.
-     * Tato metoda je zodpovědná za vykreslení stránky kontaktu ve webové aplikaci.
+     * Metoda zobrazí kontaktní stránku.
      *
-     * @return Název šablony pro stránku kontaktu (v tomto případě "pages/home/contact")
+     * @return Název šablony kontaktní stránky.
      */
     @GetMapping("/contact")
     public String renderContact(){

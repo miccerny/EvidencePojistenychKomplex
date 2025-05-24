@@ -2,8 +2,6 @@ package evidence.pojistenych.spring.controllers;
 
 
 import evidence.pojistenych.spring.models.dto.UserDTO;
-import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
-import evidence.pojistenych.spring.models.exceptions.PasswordsDoNotEqualException;
 import evidence.pojistenych.spring.models.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +13,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller pro správu uživatelských účtů.
+ * *
+ * Obsahuje metody pro přihlašování, registraci a správu uživatelských dat.
+ * Základní URL adresa pro tento controller je "/account".
+ */
 @Controller
 @RequestMapping("/account")
 public class AccountController {
 
+    // Service pro správu uživatelů
     @Autowired
     private UserService userService;
 
     /**
-     * Zobrazí přihlašovací formulář uživatele.
-     * Tato metoda vrací název šablony pro stránku s přihlášením.
+     * Metoda zobrazí stránku pro přihlášení uživatele.
      *
-     * @return cesta k šabloně přihlašovací stránky
+     * @return - Název šablony stránky přihlášení.
      */
     @GetMapping("login")
     public String renderLogin(){
@@ -35,8 +39,8 @@ public class AccountController {
 
     /**
      * Zobrazí registrační formulář pro vytvoření nového uživatele.
-     * @param userDTO prázdný DTO objekt pro naplnění registračního formuláře
-     * @return cesta k šabloně registrační stránky
+     * @param userDTO -  prázdný DTO objekt pro naplnění registračního formuláře
+     * @return -  cesta k šabloně registrační stránky
      */
     @GetMapping("register")
     public String renderRegister(@ModelAttribute UserDTO userDTO){
@@ -45,16 +49,16 @@ public class AccountController {
     }
 
     /**
-     * Zpracuje POST požadavek pro registraci nového uživatele.
-     * *
-     * Provádí validaci vstupních dat pomocí anotace {@code @Valid} a dodatečných pravidel ve službě.
-     * Pokud se vyskytnou chyby, zůstane na registrační stránce a zobrazí chybové zprávy.
-     * Po úspěšné registraci přesměruje uživatele na přihlašovací stránku s úspěšnou hláškou.
+     * Metoda zpracuje registrační formulář pro nového uživatele.
      *
-     * @param userDTO objekt s údaji z registračního formuláře
-     * @param bindingResult obsahuje výsledky validace a případné chyby
-     * @param redirectAttributes slouží k předání zprávy po přesměrování
-     * @return název šablony nebo přesměrování podle výsledku registrace
+     * Nejprve se ověří data z formuláře. Pokud jsou chyby, zobrazí se stránka
+     * registrace znovu s chybovými hláškami. Pokud je vše správně, vytvoří se
+     * nový uživatel a uživatel je přesměrován na přihlašovací stránku s potvrzením.
+     *
+     * @param userDTO -  Data uživatele z formuláře.
+     * @param bindingResult -  Výsledek validace formulářových dat.
+     * @param redirectAttributes -  Slouží k předání zpráv po přesměrování (např. úspěch).
+     * @return -  Název šablony registrační stránky při chybě, nebo přesměrování na přihlášení po úspěchu.
      */
     @PostMapping("register")
     public String register(@Valid @ModelAttribute UserDTO userDTO,
@@ -64,10 +68,7 @@ public class AccountController {
         if(bindingResult.hasErrors())
             return "pages/account/register";
 
-        userService.create(userDTO, false, bindingResult);
-
-        if(bindingResult.hasErrors())
-            return "pages/account/register";
+        userService.create(userDTO, false);
 
         redirectAttributes.addFlashAttribute("success", "Uživatel registrován.");
         return "redirect:/account/login";

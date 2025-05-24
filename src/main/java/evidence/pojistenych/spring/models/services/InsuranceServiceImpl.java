@@ -25,7 +25,6 @@ public class InsuranceServiceImpl implements InsuranceService {
     @Autowired
     private InsuranceRepository insuranceRepository;
 
-
     @Autowired
     private InsuranceMapper insuranceMapper;
 
@@ -41,9 +40,9 @@ public class InsuranceServiceImpl implements InsuranceService {
      * Nejprve provede validaci vstupních dat, poté načte entitu pojištěnce,
      * převede DTO na entitu, propojí ji s pojištěncem a uloží do databáze.
      *
-     * @param insuranceRecordDTO DTO objekt s daty pojištění
+     * @param insuranceRecordDTO DTO s daty pojištění
      * @param insuredPersonId ID pojištěnce, ke kterému se pojištění vztahuje
-     * @param bindingResult Výsledek validačních kontrol (případné chyby se zde ukládají)
+     * @param bindingResult výsledek validace (případné chyby se zde ukládají)
      */
     @Override
     public void  createInsuranceRecord(InsuranceRecordDTO insuranceRecordDTO, Long insuredPersonId, BindingResult bindingResult){

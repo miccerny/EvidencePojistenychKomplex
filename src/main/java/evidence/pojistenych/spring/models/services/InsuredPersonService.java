@@ -3,7 +3,6 @@ package evidence.pojistenych.spring.models.services;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import java.util.List;
 
-
 public interface InsuredPersonService {
 
     List<InsuredPersonDTO> getAll();

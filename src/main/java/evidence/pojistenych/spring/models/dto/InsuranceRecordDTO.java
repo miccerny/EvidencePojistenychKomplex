@@ -3,9 +3,21 @@ package evidence.pojistenych.spring.models.dto;
 
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
 
+/**
+ * DTO pro přenos dat o pojistné smlouvě.
+ * Obsahuje informace o typu pojištění, částce, předmětu pojištění,
+ * platnosti pojištění a ID pojištěné osoby.
+ *
+ * Validace polí zajišťují správnost a úplnost dat:
+ * - insurance: musí být vyplněno (typ pojištění)
+ * - amount: kladná částka, nesmí být nula
+ * - subjectOfInsurance: minimálně 10 znaků, nesmí být prázdné
+ * - dateFrom: datum začátku platnosti pojištění, nesmí být v minulosti
+ * - dateTo: datum konce platnosti, musí být v budoucnosti
+ * - insuredPersonId: musí být vyplněno (identifikátor pojištěnce)
+ */
 public class InsuranceRecordDTO {
 
     private Long insuranceId;
@@ -35,114 +47,59 @@ public class InsuranceRecordDTO {
     @NotNull
     private Long insuredPersonId;
 
-    /**
-     *
-     * @return
-     */
+
     public Long getInsuranceId() {
         return insuranceId;
     }
 
-    /**
-     *
-     * @param insuranceId
-     */
     public void setInsuranceId(Long insuranceId) {
         this.insuranceId = insuranceId;
     }
 
-    /**
-     *
-     * @return
-     */
     public Long getInsuredPersonId() {
         return insuredPersonId;
     }
 
-    /**
-     *
-     * @param insuredPersonId
-     */
     public void setInsuredPersonId(Long insuredPersonId) {
         this.insuredPersonId = insuredPersonId;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getInsurance() {
         return insurance;
     }
 
-    /**
-     *
-     * @param insurance
-     */
     public void setInsurance(String insurance) {
         this.insurance = insurance;
     }
 
-    /**
-     *
-     * @return
-     */
     public double getAmount() {
         return amount;
     }
 
-    /**
-     *
-     * @param amount
-     */
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getSubjectOfInsurance() {
         return subjectOfInsurance;
     }
 
-    /**
-     *
-     * @param subjectOfInsurance
-     */
     public void setSubjectOfInsurance(String subjectOfInsurance) {
         this.subjectOfInsurance = subjectOfInsurance;
     }
 
-    /**
-     *
-     * @return
-     */
     public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    /**
-     *
-     * @param dateFrom
-     */
     public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    /**
-     *
-     * @return
-     */
     public LocalDate getDateTo() {
         return dateTo;
     }
 
-    /**
-     *
-     * @param dateTo
-     */
     public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }

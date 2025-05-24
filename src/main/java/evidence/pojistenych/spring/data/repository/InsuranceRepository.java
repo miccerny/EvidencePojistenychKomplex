@@ -7,16 +7,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-
+/**
+ * Repozitář pro práci s pojištěními v databázi.
+ * Umožňuje základní CRUD operace pro entitu InsuranceEntity.
+ */
 @Repository
 public interface InsuranceRepository extends CrudRepository<InsuranceEntity, Long> {
     /**
+     * Najde stránky pojištění podle konkrétního pojištěnce.
      *
-     * @param insuredPerson
-     * @param pageable
-     * @return
+     * @param insuredPerson - pojištěnec, podle kterého hledáme pojištění
+     * @param pageable - informace o stránkování (stránka, velikost, třídění)
+     * @return - stránka pojištění daného pojištěnce
      */
     Page<InsuranceEntity> findByInsuredPerson(InsuredPersonEntity insuredPerson, Pageable pageable);
 }

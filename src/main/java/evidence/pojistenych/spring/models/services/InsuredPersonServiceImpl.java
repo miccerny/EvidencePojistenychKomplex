@@ -5,9 +5,9 @@ import evidence.pojistenych.spring.data.entities.InsuredPersonEntity;
 import evidence.pojistenych.spring.data.repository.InsuredPersonRepository;
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
 import evidence.pojistenych.spring.models.dto.mappers.InsuredPersonMapper;
-import evidence.pojistenych.spring.models.exceptions.InsuredNotFoundExcption;
+import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
+import evidence.pojistenych.spring.models.exceptions.InsuredPersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -50,9 +50,6 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
                 .map(i -> insuredPersonMapper.toDTO(i))
                 .toList();
 
-        if(insuredList.isEmpty()){
-            System.out.println("Žádný pojištěnec k dispozici");
-        }
         return  insuredList;
     }
 
@@ -105,7 +102,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
      */
     private InsuredPersonEntity getInsuredPersonOrThrow(Long id){
         return insuredPersonRepository.findById(id)
-                .orElseThrow(InsuredNotFoundExcption::new);
+                .orElseThrow(() -> new InsuredPersonNotFoundException(id));
 
     }
 
@@ -113,11 +110,11 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
      * Zkontroluje, zda email již není v databázi.
      *
      * @param email Email pojištěnce k prověření.
-     * @throws DataIntegrityViolationException Pokud email již existuje.
+     * @throws DuplicateEmailException Pokud email již existuje.
      */
     private void checkEmailUnique(String email) {
         if (insuredPersonRepository.existsByEmail(email)) {
-            throw new DataIntegrityViolationException("Email je již registrován.");
+            throw new DuplicateEmailException("Email je již registrován.");
         }
     }
 }

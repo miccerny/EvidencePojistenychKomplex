@@ -13,23 +13,29 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 /**
- * Kontroler pro vyhledání a předání pojištěnců View stráně
+ * Controller pro správu pojištěných osob.
+ * *
+ * Obsahuje metody pro zobrazování, přidávání, úpravy a mazání pojištěných osob.
+ * Základní URL adresa pro tento controller je nastavená na root ("/").
  */
 @Controller
 @RequestMapping("/")
 public class InsuredPersonController {
 
+    // Service pro práci s pojištěnými o
     @Autowired
     private InsuredPersonService insuredPersonService;
 
     /**
-     * Kontroler s metodou GET pro zobrazení všech pojištěnců v rámci vyhledání všech pojištěnců
-     * @param model
-     * @return - vrací HTML se zobrazenými pojištěnci
+     * Metoda zobrazí seznam všech pojištěných osob.
+     * *
+     * Načte data o pojištěncích a předá je do šablony pro zobrazení.
+     *
+     * @param model -  Slouží k předání dat do šablony (HTML stránky).
+     * @return - Název šablony se seznamem pojištěnců.
      */
     @GetMapping("/")
     public String renderPojistenci(Model model){
@@ -41,9 +47,10 @@ public class InsuredPersonController {
     }
 
     /**
-     * Metoda GET pro získání(zobrazení) formuláře pro vytvoření nového pojištěnce
-     * @param insuredPersonDTO
-     * @return - vrací vzor HTML formuláře pro vytvoření pojištěnce
+     * Metoda zobrazí formulář pro vytvoření nové pojištěné osoby.
+     *
+     * @param insuredPersonDTO - Objekt sloužící k vyplnění formuláře.
+     * @return - Název šablony pro vytvoření nové pojištěné osoby.
      */
     @GetMapping("createInsuredPerson")
     public String renderCreateInsured(@ModelAttribute InsuredPersonDTO insuredPersonDTO){
@@ -51,11 +58,17 @@ public class InsuredPersonController {
     }
 
     /**
-     * Metoda POST pro odeslání parametrů pojištěnce do databáze (v rámci MVC)
-     * @param insuredPersonDTO
-     * @param bindingResult
-     * @param redirectAttributes - zobrazí hlášku s vytvořením pojištěného v rámci HTML
-     * @return - přesměruuje (refreshne) HTML vzor s vytvotřením pojištěn=ho
+     * Metoda zpracuje formulář pro vytvoření nové pojištěné osoby.
+     * *
+     * Nejprve se ověří správnost dat ve formuláři. Pokud jsou chyby, formulář
+     * se zobrazí znovu s chybovými hláškami. Pokusí se vytvořit novou pojištěnou osobu.
+     * Pokud nastane chyba s duplicitním emailem, zobrazí se speciální hláška.
+     * Při jiných chybách se zobrazí obecná chybová zpráva.
+     *
+     * @param insuredPersonDTO Data nové pojištěné osoby z formuláře.
+     * @param bindingResult Výsledek validace formulářových dat.
+     * @param redirectAttributes Slouží k přenesení zpráv po přesměrování (např. úspěch nebo chyba).
+     * @return Návrat na formulář při chybě, nebo přesměrování zpět na formulář po úspěchu.
      */
     @PostMapping("/createInsuredPerson")
     public String createInsuredPerson(@Valid @ModelAttribute InsuredPersonDTO insuredPersonDTO,
@@ -65,7 +78,6 @@ public class InsuredPersonController {
         if(bindingResult.hasErrors()){
             return "pages/home/createInsuredPerson";
         }
-
         try {
             insuredPersonService.create(insuredPersonDTO);
             redirectAttributes.addFlashAttribute("success", "Pojištěnec uspěšně vytvořen");
@@ -74,18 +86,19 @@ public class InsuredPersonController {
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", "Neočekávaná chyba při vytváření pojištěnce.");
         }
-        System.out.println("Ukládám pojištěného s emailem: " + insuredPersonDTO.getEmail());
 
         redirectAttributes.addFlashAttribute("success", "Pojištěnec vytvořen.");
-
         return "redirect:/createInsuredPerson";
     }
 
     /**
-     * Metoda GET pro získání parametrů konkrétního pojištěnce z Modelu(databáze)
-     * @param id
-     * @param model
-     * @return - vrátí HTML formulář s daty konkrétního pojištěnce
+     * Metoda zobrazí formulář pro úpravu údajů pojištěné osoby podle jejího ID.
+     *
+     * Načte data pojištěné osoby a předá je do šablony pro editaci.
+     *
+     * @param id - ID pojištěné osoby, kterou chceme upravit.
+     * @param model - Slouží k předání dat do šablony (HTML stránky).
+     * @return - Název šablony pro úpravu pojištěné osoby.
      */
     @GetMapping("/editInsuredPeople/{id}")
     public String editInsuredPerson(@PathVariable Long id, Model model) {
@@ -95,11 +108,15 @@ public class InsuredPersonController {
     }
 
     /**
-     * Metoda POST pro odeslání upravených parametrů konkrétního pojištěnce do Modelu(databáze)
-     * @param id
-     * @param insuredPersonDTO
-     * @param redirectAttributes
-     * @return - vrátí HTML vzor formuláře o se všemi pojištěnci z databáze
+     * Metoda zpracuje úpravu údajů pojištěné osoby podle jejího ID.
+     * *
+     * Pokusí se upravit pojištěnce, pokud pojištěnec s daným ID neexistuje,
+     * zobrazí se chybová zpráva. V případě jiných chyb se zobrazí obecná chyba.
+     *
+     * @param id - ID pojištěné osoby, kterou chceme upravit.
+     * @param insuredPersonDTO - Nová data pojištěné osoby z formuláře.
+     * @param redirectAttributes - Slouží k předání zpráv (úspěch, chyba) po přesměrování.
+     * @return - Přesměrování na hlavní stránku.
      */
     @PostMapping("/editInsuredPeople/{id}")
     public String updateInsuredPerson( @PathVariable Long id,
@@ -121,27 +138,32 @@ public class InsuredPersonController {
     }
 
     /**
-     * Metoda GET vyjímečně pro vymazání konrktétního pojištěnce (neučili jsme se DELETE) z Modelu(databáze)
-     * @param id
-     * @param redirectAttributes
-     * @return
+     * Metoda smaže pojištěnou osobu podle jejího ID.
+     * *
+     * Po úspěšném smazání přesměruje na stránku se seznamem pojištěných osob
+     * a zobrazí zprávu o úspěchu.
+     *
+     * @param id ID pojištěné osoby, kterou chceme smazat.
+     * @param redirectAttributes Slouží k předání zprávy o úspěchu po přesměrování.
+     * @return Přesměrování na seznam pojištěných osob.
      */
     @GetMapping("/deleteInsured/{id}")
     public String deleteInsuredPerson(@PathVariable Long id, RedirectAttributes redirectAttributes){
 
         insuredPersonService.delete(id);
-        System.out.println("Pojištěný smazán, přesměrování na seznam.");
-
         redirectAttributes.addFlashAttribute("success", "Pojištěnec smazán");
         return "redirect:/recordsOfInsuredPeople";
     }
 
-
     /**
+     * Metoda zachytí výjimku při nenalezení pojištěnce.
+     * *
+     * Vypíše chybu do konzole, přidá zprávu o chybě do RedirectAttributes
+     * a přesměruje uživatele zpět na seznam pojištěných osob.
      *
-     * @param e
-     * @param redirectAttributes
-     * @return
+     * @param e -  Výjimka, která byla vyhozena při nenalezení pojištěnce.
+     * @param redirectAttributes - Slouží k předání chybové zprávy po přesměrování.
+     * @return - Přesměrování na stránku se seznamem pojištěných osob.
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleInsuredPersonNotFoundException(Exception e, RedirectAttributes redirectAttributes){
