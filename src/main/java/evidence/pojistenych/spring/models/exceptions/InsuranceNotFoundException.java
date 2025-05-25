@@ -1,5 +1,7 @@
 package evidence.pojistenych.spring.models.exceptions;
 
+import java.time.LocalDate;
+
 /**
  * Výjimka, která se vyhodí, pokud není nalezeno pojištění podle zadaného ID.
  */
@@ -13,4 +15,5 @@ public class InsuranceNotFoundException extends RuntimeException{
     public InsuranceNotFoundException(Long id){
         super("Pojištění s ID " + id + " nenalezeno");
     }
+
 }

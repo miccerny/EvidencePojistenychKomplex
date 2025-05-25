@@ -6,7 +6,7 @@ package evidence.pojistenych.spring.models.exceptions;
  */
 public class PasswordsDoNotEqualException extends RuntimeException{
 
-    public PasswordsDoNotEqualException(String message) {
-        super(message);
+    public PasswordsDoNotEqualException() {
+        super("Hesla se neshodují");
     }
 }

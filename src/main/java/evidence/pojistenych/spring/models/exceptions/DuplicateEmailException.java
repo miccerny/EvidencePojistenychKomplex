@@ -1,5 +1,7 @@
 package evidence.pojistenych.spring.models.exceptions;
 
+import org.springframework.ui.Model;
+
 /**
  * Výjimka, která se vyhazuje, pokud se uživatel pokusí registrovat s emailem,
  * který už je v systému zaregistrovaný.

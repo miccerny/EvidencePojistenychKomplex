@@ -9,6 +9,8 @@ import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
 import evidence.pojistenych.spring.models.exceptions.InsuredPersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -114,7 +116,7 @@ public class InsuredPersonServiceImpl implements InsuredPersonService {
      */
     private void checkEmailUnique(String email) {
         if (insuredPersonRepository.existsByEmail(email)) {
-            throw new DuplicateEmailException("Email je již registrován.");
+            throw new DuplicateEmailException(email);
         }
     }
 }

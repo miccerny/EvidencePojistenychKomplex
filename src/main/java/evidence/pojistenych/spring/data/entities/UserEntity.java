@@ -67,6 +67,10 @@ public class UserEntity implements UserDetails {
         return password;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
     /**
      * Nastaví heslo uživatele.
      * @param password heslo uživatele

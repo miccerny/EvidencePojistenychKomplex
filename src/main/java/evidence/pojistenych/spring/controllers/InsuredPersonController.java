@@ -2,6 +2,7 @@ package evidence.pojistenych.spring.controllers;
 
 
 import evidence.pojistenych.spring.models.dto.InsuredPersonDTO;
+import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
 import evidence.pojistenych.spring.models.services.InsuredPersonService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -81,14 +82,14 @@ public class InsuredPersonController {
         try {
             insuredPersonService.create(insuredPersonDTO);
             redirectAttributes.addFlashAttribute("success", "Pojištěnec uspěšně vytvořen");
-        } catch (DataIntegrityViolationException ex) {
-            bindingResult.rejectValue("email", "error", "Email je již registrován");
+            return "redirect:/createInsuredPerson";
+        } catch (DuplicateEmailException ex) {
+            bindingResult.rejectValue("email", "error.email", ex.getMessage());
+            return "pages/home/createInsuredPerson";
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", "Neočekávaná chyba při vytváření pojištěnce.");
+            return "redirect:/createInsuredPerson";
         }
-
-        redirectAttributes.addFlashAttribute("success", "Pojištěnec vytvořen.");
-        return "redirect:/createInsuredPerson";
     }
 
     /**

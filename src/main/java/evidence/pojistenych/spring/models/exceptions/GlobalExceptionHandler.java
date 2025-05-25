@@ -20,16 +20,11 @@ public class GlobalExceptionHandler {
      * @param model model pro předání dat do šablony
      * @return název šablony registračního formuláře
      */
-    @ExceptionHandler(DuplicateEmailException.class)
-    public String handleDuplicateEmail(DuplicateEmailException ex, Model model) {
-        model.addAttribute("emailError", ex.getMessage());
-        return "registration-form"; // název HTML šablony (např. Thymeleaf)
-    }
-
-    @ExceptionHandler(PasswordsDoNotEqualException.class)
-    public String handlePasswordsDoNotEqual(PasswordsDoNotEqualException ex, Model model) {
-        model.addAttribute("passwordError", ex.getMessage());
-        model.addAttribute("confirmPasswordError", ex.getMessage());
-        return "pages/account/register"; // návrat na formulář
+    @ExceptionHandler(Exception.class)
+    public String handleAllExceptions(Exception ex, Model model) {
+        ex.printStackTrace();
+        model.addAttribute("error", "Neočekávaná chyba. Prosím zkuste to později.");
+        // Návrat na obecnou chybovou stránku nebo hlavní stránku
+        return "error/generalError";
     }
 }

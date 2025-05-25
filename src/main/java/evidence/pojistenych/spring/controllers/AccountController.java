@@ -2,10 +2,13 @@ package evidence.pojistenych.spring.controllers;
 
 
 import evidence.pojistenych.spring.models.dto.UserDTO;
+import evidence.pojistenych.spring.models.exceptions.DuplicateEmailException;
+import evidence.pojistenych.spring.models.exceptions.PasswordsDoNotEqualException;
 import evidence.pojistenych.spring.models.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,14 +46,13 @@ public class AccountController {
      * @return -  cesta k šabloně registrační stránky
      */
     @GetMapping("register")
-    public String renderRegister(@ModelAttribute UserDTO userDTO){
-
+    public String renderRegister(@ModelAttribute UserDTO userDTO, Model model){
         return "pages/account/register";
     }
 
     /**
      * Metoda zpracuje registrační formulář pro nového uživatele.
-     *
+     * *
      * Nejprve se ověří data z formuláře. Pokud jsou chyby, zobrazí se stránka
      * registrace znovu s chybovými hláškami. Pokud je vše správně, vytvoří se
      * nový uživatel a uživatel je přesměrován na přihlašovací stránku s potvrzením.
@@ -68,9 +70,17 @@ public class AccountController {
         if(bindingResult.hasErrors())
             return "pages/account/register";
 
-        userService.create(userDTO, false);
+        try {
+            userService.create(userDTO, false);
+            redirectAttributes.addFlashAttribute("success", "Uživatel registrován.");
+        } catch (PasswordsDoNotEqualException e){
+            bindingResult.rejectValue("confirmPassword", "error.confirmPassword", e.getMessage());
+            return "pages/account/register";
+        }catch (DuplicateEmailException e){
+            bindingResult.rejectValue("email", "error.email", e.getMessage());
+            return "pages/account/register";
+        }
 
-        redirectAttributes.addFlashAttribute("success", "Uživatel registrován.");
         return "redirect:/account/login";
     }
 

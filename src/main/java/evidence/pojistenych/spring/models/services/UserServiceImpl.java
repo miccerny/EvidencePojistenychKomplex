@@ -33,13 +33,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void create(UserDTO userDTO, boolean isAdmin){
 
-        validatePasswordMatch(userDTO);
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userEntity.setAdmin(isAdmin);
+        validatePasswordMatch(userDTO);
         checkEmailUnique(userDTO);
-
         userRepository.save(userEntity);
     }
 
@@ -65,7 +64,7 @@ public class UserServiceImpl implements UserService{
      */
     private void validatePasswordMatch(UserDTO userDTO) {
         if (!userDTO.getPassword().equals(userDTO.getConfirmPassword())) {
-            throw new PasswordsDoNotEqualException("Hesla se neshodují.");
+            throw new PasswordsDoNotEqualException();
         }
     }
 
